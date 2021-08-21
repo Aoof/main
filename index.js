@@ -36,6 +36,5 @@ app.use("/", require("./router"));
 //     }
 // })
 
-let p = process.env.PORT || 8080;
+let p = process.env.PORT || 80;
 app.listen(p);
-console.log(`listening on http://localhost:${p}/`);

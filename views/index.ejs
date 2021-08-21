@@ -3,10 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+    <title>Aoof</title>
 </head>
 <body>
-    Pog
+    <div class="container">
+        <img src="./profile.jpg" alt="profile" class="profile">
+        <div class="headline">
+            <div id="name">Abdulrahman Mousa</div>
+            <div id="description">Toronto, ON H1T 2R3</div>
+            <div><a href="mailto:aoof.mousa@gmail.com" id="contact-e">aoof.mousa@gmail.com</a></div>
+            <div><a href="tel:+15147177233" id="contact-t">+1 (514) 717-7233</a></div>
+        </div>
+
+        <div class="aboutme">
+            <div class="headline">About me <hr></div>
+            <div class="desc">
+                Hey, I am Abdulrahman Mousa, <span class="age">17</span> year old self-taught developer/hobbiest. Exposed to
+                coding when I was 10 and ever since then I was fascinated by the vast world of programming.
+                I taught myself using multiple sources, famous ones of which are <a href="https://udemy.com/" target="_blank">Udemy, </a> <a href="http://w3schools.com/" target="_blank" rel="noopener noreferrer">W3schools, </a> and experience
+                by testing, practicing, and reading the documenations.
+            </div>
+        </div>
+
+        <div class="skills">
+            <div class="headline">Skills <hr></div>
+            <div class="details">
+                <div class="skill">
+                    <div class="name">Python</div>
+                    <div class="bar py"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">JavaScript</div>
+                    <div class="bar js"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">Node.js</div>
+                    <div class="bar node"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">Express.js</div>
+                    <div class="bar express"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">HTML5</div>
+                    <div class="bar html"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">CSS & SCSS</div>
+                    <div class="bar css"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">C#</div>
+                    <div class="bar cs"></div>
+                </div>
+                <div class="skill">
+                    <div class="name">MySQL</div>
+                    <div class="bar sql"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects">
+            <div class="headline">Projects <hr></div>
+            <div class="details">
+                <div class="card">
+                    <a href="http://haconsultation.com" target="_blank" rel="noopener noreferrer">
+                        <img src="./ha.png" alt="">
+                    </a>
+
+                    <div class="desc">
+                        <div class="header">H&A Consultation</div>
+                        <p>
+                            Aviation consulting provided by Al Moosa & Abdulkarem Mousa.<br>
+                            Built using Wordpress hosted on bluehost with a domain from GoDaddy.<br>
+                            You can visit the website on <a href="http://haconsultation.com/" target="_blank" rel="noopener noreferrer">http://haconsultation.com/</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    var dob = new Date("01/26/2004");  
+    var month_diff = Date.now() - dob.getTime();
+    var age_dt = new Date(month_diff);
+    var year = age_dt.getUTCFullYear();
+    var age = Math.abs(year - 1970); 
+
+    document.querySelector(".age").innerHTML = age;
+</script>
 </html>
