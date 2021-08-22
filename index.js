@@ -15,26 +15,25 @@ app.use(express.static(path.join(__dirname, "static")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// app.use(csrf())
+app.use(csrf())
 
-// app.use(async function(req, res, next) {
-//     res.locals.csrfToken = req.csrfToken();
-//     next();
-// })
+app.use(async function(req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+})
 
 app.use("/", require("./router"));
 
-// app.use(function(err, req, res, next) {
-//     if (err) {
-//         if (err.code == "EBADCSRFTOKEN") {
-//             // req.flash('errors', 'Cross-site forgery detected');
-//             // req.session.save(() => res.redirect('back')); // with flash
-//             res.redirect('back');
-//         } else {
-//             res.status(400).send(err);
-//         }
-//     }
-// })
+app.use(function(err, req, res, next) {
+    if (err) {
+        if (err.code == "EBADCSRFTOKEN") {
+            // req.flash('errors', 'Cross-site forgery detected');
+            // req.session.save(() => res.redirect('back')); // with flash
+            res.redirect('back');
+        } else {
+            res.status(400).send(err);
+        }
+    }
+})
 
-let p = process.env.PORT || 80;
-app.listen(p);
+module.exports = app;

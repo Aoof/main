@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "nodemon index.js"
   },
   "author": "Abdulrahman M.",
   "license": "MIT",
@@ -13,6 +14,7 @@
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "mongodb": "^4.1.0",
     "morgan": "^1.10.0"
   }
 }
