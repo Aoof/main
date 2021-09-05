@@ -1,13 +1,38 @@
-const express = require("express");
-const cors = require("morgan");
-const csrf = require("csurf");
-const path = require("path");
+const express       = require("express");
+const cors          = require("morgan");
+const csrf          = require("csurf");
+const session       = require("express-session");
+const cookieParser  = require("cookie-parser");
+const path          = require("path");
+const MongoStore    = require("connect-mongo");
+const flash         = require("connect-flash");
+
 require("dotenv").config();
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+let sessionOptions = session({
+    secret: process.env.SESSIONSECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: process.env.MONGODBSTRING })
+});
+
+app.use(cookieParser());
+app.use(sessionOptions);
+app.use(flash());
+
+app.use(async function(req, res, next) {
+    res.locals.errors   = req.flash("errors");
+    res.locals.success  = req.flash("success");
+
+    res.locals.user = req.session.user;
+
+    next();
+})
 
 app.use(cors());
 

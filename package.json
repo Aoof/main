@@ -4,17 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "nodemon index.js"
+    "start": "node db.js",
+    "test": "nodemon db.js"
   },
   "author": "Abdulrahman M.",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.5.0",
+    "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "marked": "^3.0.0",
     "mongodb": "^4.1.0",
-    "morgan": "^1.10.0"
+    "mongoose": "^5.13.7",
+    "morgan": "^1.10.0",
+    "validator": "^13.6.0"
   }
 }

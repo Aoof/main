@@ -182,6 +182,7 @@ html body .projects .headline {
 html body .projects .card {
   display: -ms-grid;
   display: grid;
+  margin: 30px 0;
 }
 
 html body .projects .card a {
@@ -198,8 +199,20 @@ html body .projects .card a {
       align-content: center;
 }
 
+html body .projects .card a#castlecanada {
+  border-radius: 50%;
+  border: 4px dotted black;
+  width: 150px;
+  height: 150px;
+}
+
 html body .projects .card a img {
   width: 150px;
+}
+
+html body .projects .card a#castlecanada img {
+  height: 140px;
+  width: unset;
 }
 
 html body .projects .card .desc {

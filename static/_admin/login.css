@@ -1,0 +1,70 @@
+html, body {
+  background-color: #001f3f;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+html .container, body .container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  text-align: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  margin: auto;
+  padding: 30px;
+}
+
+html .container form, body .container form {
+  width: 50%;
+  margin: auto;
+  text-align: left;
+}
+
+html .container form *, body .container form * {
+  font-size: 1.2em;
+}
+
+html .container form .form-group, body .container form .form-group {
+  padding: 10px 0;
+}
+
+html .container form .form-group input, body .container form .form-group input {
+  padding: 7px 3px;
+  margin: 5px 0;
+  border-radius: 7px;
+  color: black;
+  border: none;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+}
+
+html .container form .btn, body .container form .btn {
+  border: none;
+  border-radius: 9px;
+  padding: 10px 25px;
+  cursor: pointer;
+  background-color: #0074D9;
+  color: white;
+}
+
+@media only screen and (max-width: 860px) {
+  .container form {
+    width: -webkit-fill-available !important;
+    width: -moz-available !important;
+    width: stretch !important;
+  }
+}
+/*# sourceMappingURL=adminlogin.css.map */
