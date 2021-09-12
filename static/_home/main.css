@@ -199,18 +199,19 @@ html body .projects .card a {
       align-content: center;
 }
 
-html body .projects .card a#castlecanada {
+html body .projects .card a .image_container {
   border-radius: 50%;
   border: 4px dotted black;
   width: 150px;
   height: 150px;
+  margin: 20px auto;
 }
 
-html body .projects .card a img {
+html body .projects .card a .image_container img {
   width: 150px;
 }
 
-html body .projects .card a#castlecanada img {
+html body .projects .card a#castlecanada .image_container img {
   height: 140px;
   width: unset;
 }
