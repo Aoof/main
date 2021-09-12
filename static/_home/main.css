@@ -187,7 +187,7 @@ html body .projects .card {
 
 html body .projects .card a {
   grid-column: 1 span;
-  text-align: center;
+  text-align: left;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
