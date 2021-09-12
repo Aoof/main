@@ -120,11 +120,11 @@ html body .skills .skill .bar::after {
 }
 
 html body .skills .skill .bar.py::after {
-  width: 50%;
+  width: 80%;
 }
 
 html body .skills .skill .bar.js::after {
-  width: 80%;
+  width: 90%;
 }
 
 html body .skills .skill .bar.node::after {
@@ -136,7 +136,7 @@ html body .skills .skill .bar.express::after {
 }
 
 html body .skills .skill .bar.html::after {
-  width: 80%;
+  width: 90%;
 }
 
 html body .skills .skill .bar.css::after {
@@ -149,6 +149,10 @@ html body .skills .skill .bar.cs::after {
 
 html body .skills .skill .bar.sql::after {
   width: 55%;
+}
+
+html body .skills .skill .bar.mongodb::after {
+  width: 70%;
 }
 
 html body .skills .skill .bar::before {
