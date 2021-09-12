@@ -187,7 +187,7 @@ html body .projects .card {
 
 html body .projects .card a {
   grid-column: 1 span;
-  text-align: left;
+  text-align: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -202,9 +202,10 @@ html body .projects .card a {
 html body .projects .card a .image_container {
   border-radius: 50%;
   border: 4px dotted black;
+  text-align: center;
   width: 150px;
   height: 150px;
-  margin: 20px auto;
+  margin: 20px 0;
 }
 
 html body .projects .card a .image_container img {
