@@ -3,13 +3,16 @@ const User = require("../classes/User");
 module.exports = {
     home(req, res, next) {
         res.render("index");
-    } ,
+    },
     admin(req, res, next) {
         if (!req.session.user) {
             res.render("adminlogin");
         } else {
             res.render("admin");
         }
+    },
+    vsc(req, res, next) {
+        res.render("vsc");
     },
     login(req, res, next) {
         let user = new User(req.body);
