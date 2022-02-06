@@ -29,7 +29,7 @@ export default class VerySecretCompartment {
     showTime() {
         setInterval(() => {
             this.tzTime = moment().local();
-            let t = this.tzTime.format("h:m:s A")
+            let t = this.tzTime.format("hh:mm:ss A")
             let d = this.tzTime.format("DD-MM-YYYY")
             this.time.innerHTML = t
             this.date.innerHTML = d
