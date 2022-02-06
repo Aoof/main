@@ -12,7 +12,7 @@ export default class VerySecretCompartment {
 
     events() {
         this.tzTime = moment().local();
-        let t = this.tzTime.format("h:m:s A")
+        let t = this.tzTime.format("hh:mm:ss A")
         let d = this.tzTime.format("DD-MM-YYYY")
         this.time.innerHTML = t
         this.date.innerHTML = d
@@ -46,7 +46,7 @@ export default class VerySecretCompartment {
             newTime = newTime + JSON.stringify(i)
             let stamp = this.tzTime.format("YYYY-MM-DD") + "T" + newTime + ":00Z"
             let upTzTime = moment(stamp).utc()
-            element.innerHTML = upTzTime.format("h:mm A");
+            element.innerHTML = upTzTime.format("HH:mm");
         
             const element_2 = document.createElement("td");
             let timeLeft = upTzTime.from(this.tzTime)
