@@ -11,12 +11,7 @@ export default class VerySecretCompartment {
     }
 
     events() {
-        this.tzTime = moment().local();
-        let t = this.tzTime.format("hh:mm:ss A")
-        let d = this.tzTime.format("DD-MM-YYYY")
-        this.time.innerHTML = t
-        this.date.innerHTML = d
-        
+        this.setTime()
         this.showTable()
         this.showTime()
     }
@@ -26,13 +21,17 @@ export default class VerySecretCompartment {
         document.querySelector("#tz").innerHTML = tz.name();
     }
 
+    setTime() {
+        this.tzTime = moment().utc();
+        let t = this.tzTime.format("hh:mm:ss A");
+        let d = this.tzTime.format("DD-MM-YYYY");
+        this.time.innerHTML = t;
+        this.date.innerHTML = d + " (Coordinated Universal Time UTC)";
+    }
+
     showTime() {
         setInterval(() => {
-            this.tzTime = moment().local();
-            let t = this.tzTime.format("hh:mm:ss A")
-            let d = this.tzTime.format("DD-MM-YYYY")
-            this.time.innerHTML = t
-            this.date.innerHTML = d
+            this.setTime();
         }, 1000);
     }
 
