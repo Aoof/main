@@ -44,12 +44,12 @@ export default class VerySecretCompartment {
 
             let newTime = (i < 10) ? "0" : ""
             newTime = newTime + JSON.stringify(i)
-            let stamp = this.tzTime.format("YYYY-MM-DD") + "T" + newTime + ":00Z"
-            let upTzTime = moment(stamp).utc()
-            element.innerHTML = upTzTime.format("HH:mm");
+            let stamp = moment().utc().format("YYYY-MM-DD") + "T" + newTime + ":00Z"
+            let upTime = moment(stamp).utc()
+            element.innerHTML = upTime.format("HH:mm");
         
             const element_2 = document.createElement("td");
-            let timeLeft = upTzTime.from(this.tzTime)
+            let timeLeft = upTime.from(this.tzTime)
             element_2.innerHTML = moment(stamp).local().format("h:mm A") + ` (${timeLeft})`;
             
             row.appendChild(element);
