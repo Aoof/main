@@ -147,6 +147,10 @@ html body .skills .skill .bar.cs::after {
   width: 40%;
 }
 
+html body .skills .skill .bar.c::after {
+  width: 90%;
+}
+
 html body .skills .skill .bar.sql::after {
   width: 55%;
 }
@@ -183,51 +187,30 @@ html body .projects .headline {
   width: stretch;
 }
 
-html body .projects .card {
-  display: -ms-grid;
-  display: grid;
-  margin: 30px 0;
+.card {
+  margin-bottom: 60px;
+  border-bottom: 1px solid white;
 }
 
-html body .projects .card a {
-  grid-column: 1 span;
+.image_container {
   text-align: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  vertical-align: middle;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  width: 100%;
+  width: -webkit-fill-available;
+  height: auto;
+  margin-bottom: 40px;
 }
 
-html body .projects .card a .image_container {
-  border-radius: 50%;
-  border: 4px dotted black;
-  text-align: center;
-  width: 150px;
-  height: 150px;
-  margin: 20px 0;
-}
-
-html body .projects .card a .image_container img {
-  width: 150px;
-}
-
-html body .projects .card a#castlecanada .image_container img {
-  height: 140px;
-  width: unset;
+.image_container img {
+  width: 80%;
 }
 
 html body .projects .card .desc {
-  margin: 0 30px;
   grid-column: 2 / 8 span;
 }
 
 html body .projects .card .desc .header {
   font-size: 18pt;
+  text-align: center;
 }
 
 html body .projects .card .desc p {
