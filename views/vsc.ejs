@@ -46,7 +46,13 @@
                         </form>
                         <td><%= rando.name %></td>
                         <td class="switch-timezones"><%= rando.last_cursed %></td>
-                        <td><%= rando.longest_streak.hours %> hours, <%= rando.longest_streak.minutes %> minutes, and <%= rando.longest_streak.seconds %> seconds</td>
+                        <td class="longest-streak" 
+                            data-last-cursed="<%= rando.last_cursed %>"
+                            data-hours="<%= rando.longest_streak.hours %>"
+                            data-minutes="<%= rando.longest_streak.minutes %>"
+                            data-seconds="<%= rando.longest_streak.seconds %>">
+                            <%= rando.longest_streak.hours %> hours, <%= rando.longest_streak.minutes %> minutes, and <%= rando.longest_streak.seconds %> seconds
+                        </td>
                         <td><button class="btn btn-outline-primary" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2">Just Cussed!</button></td>
                     </tr>
                     <% }) %>
