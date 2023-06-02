@@ -45,7 +45,7 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         </form>
                         <td><%= rando.name %></td>
-                        <td class="switch-timezones" data-last-cursed="<%= rando.last_cursed %>"><%= rando.last_cursed %></td>
+                        <td class="switch-timezones" data-last-cursed="<%= rando.last_cursed_utc %>"><%= rando.last_cursed %></td>
                         <td class="longest-streak" 
                             data-last-cursed="<%= rando.last_cursed %>"
                             data-hours="<%= rando.longest_streak.hours %>"

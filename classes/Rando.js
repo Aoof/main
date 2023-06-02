@@ -78,6 +78,7 @@ Rando.prototype.getAllRandos = function() {
         randosCollection.find().toArray()
         .then(randos => {
             randos = randos.map(rando => {
+                rando.last_cursed_utc = moment(rando.last_cursed).utc().format();
                 rando.last_cursed = moment(rando.last_cursed).format("DD-MM-YYYY hh:mm:ss A");
                 rando.longest_streak = {
                     hours: Math.floor(rando.longest_streak).toString(),
