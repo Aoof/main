@@ -13,10 +13,6 @@ export default class VerySecretCompartment {
 
     events() {
         let time = null
-        this.switchTimezones.forEach(el => {
-            time = moment(el.innerHTML, "DD-MM-YYYY hh:mm:ss A")
-            el.innerHTML = time.local().format("DD-MM-YYYY hh:mm:ss A")
-        })
 
         time = moment().local()
         this.timeElem.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A")
@@ -38,7 +34,9 @@ export default class VerySecretCompartment {
 
         this.switchTimezones.forEach(el => {
             let time = moment(el.dataset.lastCursed);
-            el.innerHTML = time.local().format("DD-MM-YYYY hh:mm:ss A");
+            let offset = new Date().getTimezoneOffset() / 60;
+            time.utcOffset(offset, true);
+            el.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A");
         })
 
         setInterval(() => {
