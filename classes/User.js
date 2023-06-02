@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const usersCollection = require("../db")
+const usersCollection = require("../db").collection("users");
 
 let User = function(data) {
   this.data = data;
@@ -41,6 +41,27 @@ User.prototype.login = function() {
       .catch(function() {
         reject("Please try again later.");
       });
+  });
+};
+
+User.prototype.register = function() {
+  return new Promise(async (resolve, reject) => {
+    this.cleanUp();
+    if (!this.errors.length) {
+      let salt = bcrypt.genSaltSync(10);
+      this.data.password = bcrypt.hashSync(this.data.password, salt);
+      usersCollection
+        .insertOne(this.data)
+        .then(() => {
+          resolve();
+        })
+        .catch(() => {
+          this.errors.push("Please try again later.");
+          reject(this.errors);
+        });
+    } else {
+      reject(this.errors);
+    }
   });
 };
 

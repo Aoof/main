@@ -1,18 +1,27 @@
 const User = require("../classes/User");
+const Rando = require("../classes/Rando");
 
 module.exports = {
     home(req, res, next) {
         res.render("index");
     },
     admin(req, res, next) {
-        if (!req.session.user) {
+        if (!req.session.user.username == "admin") {
             res.render("adminlogin");
         } else {
             res.render("admin");
         }
     },
     vsc(req, res, next) {
-        res.render("vsc");
+        dummy = new Rando({name: ""});
+        dummy.getAllRandos()
+        .then(randos => {
+            res.render("vsc", { randos: randos });
+        })
+        .catch(() => {
+            req.flash("errors", "Please try again later.");
+            req.session.save(() => res.redirect("back"));
+        });
     },
     login(req, res, next) {
         let user = new User(req.body);
@@ -41,6 +50,30 @@ module.exports = {
     logout(req, res, next) {
         req.session.destroy(() => {
             res.redirect("/");
+        })
+    },
+    register(req, res, next) {
+        let user = new User(req.body);
+        user.register()
+        .then(() => {
+            req.session.user = { username: user.data.username };
+            req.session.save(() => res.redirect("/"));
+        })
+        .catch((regErrors) => {
+            regErrors.forEach(e => req.flash("regErrors", e));
+            req.session.save(() => res.redirect("back"));
+        })
+    },
+    randoJustCursed(req, res, next) {
+        let rando = new Rando(req.body);
+        rando.randoJustCursed()
+        .then(() => {
+            req.flash("success", rando.name + " had just cussed.");
+            req.session.save(() => res.redirect("back"));
+        })
+        .catch((errors) => {
+            errors.forEach(e => req.flash("errors", e));
+            req.session.save(() => res.redirect("back"));
         })
     }
 }

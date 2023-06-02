@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node db.js",
-    "test": "nodemon index.js --ignore static/",
+    "test": "nodemon db.js --ignore static/",
     "test2": "webpack --watch --config webpack.config.js"
   },
   "author": "Abdulrahman M.",
