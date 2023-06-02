@@ -36,6 +36,11 @@ export default class VerySecretCompartment {
             el.innerHTML = `${hours} hours, ${minutes} minutes, and ${seconds} seconds`
         })
 
+        this.switchTimezones.forEach(el => {
+            let time = moment(el.innerHTML, "DD-MM-YYYY hh:mm:ss A");
+            el.innerHTML = time.local().format("DD-MM-YYYY hh:mm:ss A");
+        })
+
         setInterval(() => {
             time = moment().local()
             this.timeElem.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A")
