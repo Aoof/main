@@ -18,9 +18,7 @@ export default class VerySecretCompartment {
         this.timeElem.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A")
 
         this.streaks.forEach(el => {
-            let current = moment(el.dataset.lastCursed)
-            let offset = new Date().getTimezoneOffset() / 60;
-            current.utcOffset(offset, true);
+            let current = moment(el.parentElement.querySelector(".switch-timezones").dataset.lastCursed); // Already offset to local time
             let diff = moment().diff(current, "hours", true)
 
             let hours = Math.floor(diff);

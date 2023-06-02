@@ -47,7 +47,6 @@
                         <td><%= rando.name %></td>
                         <td class="switch-timezones" data-last-cursed="<%= rando.last_cursed_utc %>"><%= rando.last_cursed %></td>
                         <td class="longest-streak" 
-                            data-last-cursed="<%= rando.last_cursed %>"
                             data-hours="<%= rando.longest_streak.hours %>"
                             data-minutes="<%= rando.longest_streak.minutes %>"
                             data-seconds="<%= rando.longest_streak.seconds %>">
@@ -59,23 +58,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- <div class="time">
-            <div class="t"></div>
-            <div class="d"></div>
-        </div>
-        <div class="comment">
-            
-        </div>
-        <table class="table table-dark table-striped text-center">
-            <thead>
-                <th scope="col">UTC</th>
-                <th scope="col">Your Timezone (<span id="tz"></span>)</th>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table> -->
     </div>
 </body>
 <script src="/js/main-bundled.js"></script>
