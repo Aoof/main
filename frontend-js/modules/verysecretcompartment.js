@@ -37,7 +37,7 @@ export default class VerySecretCompartment {
         })
 
         this.switchTimezones.forEach(el => {
-            let time = moment(el.innerHTML, "DD-MM-YYYY hh:mm:ss A");
+            let time = moment(el.dataset.lastCursed);
             el.innerHTML = time.local().format("DD-MM-YYYY hh:mm:ss A");
         })
 
