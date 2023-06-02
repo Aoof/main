@@ -1,29 +1,36 @@
 const moment = require("moment");
-const jstz = require("jstz");
 
 export default class VerySecretCompartment {
     constructor() {
-        this.switchTimezones = document.querySelectorAll(".switch-timezones");
+        this.lastCursedElems = document.querySelectorAll(".last-cursed");
         this.streaks = document.querySelectorAll(".longest-streak");
-        this.timeElem = document.querySelector("#current-time");
 
         this.counter = 0;
         this.events()
     }
 
     events() {
-        let time = null
-
-        time = moment().local()
-        this.timeElem.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A")
-
         this.streaks.forEach(el => {
-            let current = moment(el.parentElement.querySelector(".switch-timezones").dataset.lastCursed); // Already offset to local time
+            let current = moment(el.parentElement.querySelector(".last-cursed").dataset.lastCursed); // Already offset to local time
             let diff = moment().diff(current, "hours", true)
 
-            let hours = Math.floor(diff);
-            let minutes = Math.floor((diff - hours) * 60);
-            let seconds = Math.floor((((diff - hours) * 60) - minutes) * 60);
+            let _hours = parseInt(el.dataset.hours)
+            let _minutes = parseInt(el.dataset.minutes)
+            let _seconds = parseInt(el.dataset.seconds)
+
+            let _diff = _hours + _minutes / 60 + _seconds / 3600
+
+            let hours = 0, minutes = 0, seconds = 0;
+
+            if (diff > _diff) {
+                hours = Math.floor(diff);
+                minutes = Math.floor((diff - hours) * 60);
+                seconds = Math.floor((((diff - hours) * 60) - minutes) * 60);
+            } else {
+                hours = _hours;
+                minutes = _minutes;
+                seconds = _seconds;
+            }
 
             el.dataset.hours = hours
             el.dataset.minutes = minutes
@@ -32,32 +39,25 @@ export default class VerySecretCompartment {
             el.innerHTML = `${hours} hours, ${minutes} minutes, and ${seconds} seconds`
         })
 
-        this.switchTimezones.forEach(el => {
-            let time = moment(el.dataset.lastCursed);
-            let offset = new Date().getTimezoneOffset() / 60;
-            time.utcOffset(offset, true);
-            el.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A");
-        })
+        this.updateLastCursed()
 
         setInterval(() => {
-            time = moment().local()
-            this.timeElem.innerHTML = time.format("DD-MM-YYYY hh:mm:ss A")
-
-            // Do the longest streak thing
-            this.streaks.forEach(el => {
-                let _hours = parseFloat(el.dataset.hours)
-                let _minutes = parseFloat(el.dataset.minutes) / 60
-                let _seconds = (parseFloat(el.dataset.seconds) + this.counter) / 60 / 60
-
-                let diff = _hours + _minutes + _seconds
-
-                let hours = Math.floor(diff);
-                let minutes = Math.floor((diff - hours) * 60);
-                let seconds = Math.floor((((diff - hours) * 60) - minutes) * 60);
-
-                el.innerHTML = `${hours} hours, ${minutes} minutes, and ${seconds} seconds`
-            })
+            this.updateLastCursed()
             this.counter += 1
         }, 1000)
+    }
+
+    updateLastCursed() {
+        this.lastCursedElems.forEach(el => {
+            let time = moment(el.dataset.lastCursed);
+            let diff = moment().diff(time, "hours", true);
+
+            let hours = Math.floor(diff);
+            let minutes = Math.floor((diff - hours) * 60);
+
+            diff = diff + this.counter / 3600;
+            
+            el.innerHTML = time.format("DD/MM/YY hh:mm:ss A") + ` (${hours} hours and ${minutes} minutes ago)`;
+        })
     }
 }

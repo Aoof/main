@@ -87,6 +87,9 @@ Rando.prototype.getAllRandos = function() {
                 }
                 return rando;
             });
+            randos.sort((a, b) => {
+                return moment(b.last_cursed).diff(moment(a.last_cursed));
+            });
             resolve(randos);
         })
         .catch(() => {
