@@ -5,6 +5,7 @@ let Rando = function({ name }) {
     this.name = name;
     this.last_cursed = moment().utc().format();
     this.longest_streak = 0;
+    this.cuss_counter = 0;
     this.errors = [];
 }
 
@@ -13,7 +14,8 @@ Rando.prototype.addRando = function() {
         randosCollection.insertOne({
             name: this.name,
             last_cursed: this.last_cursed,
-            longest_streak: this.longest_streak
+            longest_streak: this.longest_streak,
+            cuss_counter: this.cuss_counter
         })
         .then(() => {
             resolve();
@@ -30,10 +32,10 @@ Rando.prototype.randoJustCursed = function() {
         this.last_cursed = moment().utc().format();
         randosCollection.findOne({ name: this.name })
         .then(rando => {
-            if (rando) {
+            if (rando) { 
                 // Check the time between the last cuss and now
                 if (moment().diff(moment(rando.last_cursed), "hours") >= rando.longest_streak) {
-                    randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.last_cursed, longest_streak: moment().diff(moment(rando.last_cursed), "hours", true) } })
+                    randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.last_cursed, longest_streak: moment().diff(moment(rando.last_cursed), "hours", true), cuss_counter: rando.cuss_counter + 1 } })
                     .then(() => {
                         resolve();
                     })
@@ -44,7 +46,7 @@ Rando.prototype.randoJustCursed = function() {
                 }
                 // if duration between last curse and now is smaller than the longest streak, just update last curse
                 else {
-                    randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.last_cursed } })
+                    randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.last_cursed, cuss_counter: rando.cuss_counter + 1  } })
                     .then(() => {
                         resolve();
                     })

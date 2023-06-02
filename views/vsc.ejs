@@ -41,6 +41,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Last Cussed</th>
                     <th scope="col">Longest Streak</th>
+                    <th scope="col">Cuss Count</th>
                     <th></th>
                 </thead>
                 <tbody>
@@ -59,6 +60,7 @@
                             data-seconds="<%= rando.longest_streak.seconds %>">
                             <%= rando.longest_streak.hours %> hours, <%= rando.longest_streak.minutes %> minutes, and <%= rando.longest_streak.seconds %> seconds
                         </td>
+                        <td><%= rando.cuss_counter %></td>
                         <td><button class="btn btn-outline-primary" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2">Just Cussed!</button></td>
                     </tr>
                     <% }) %>
