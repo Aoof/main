@@ -35,7 +35,7 @@
         
         <!-- List of users and what their last cussed time is -->
         <div class="users">
-            <table class="table text-center table-borderless table-striped">
+            <table class="table table-dark table-borderless table-striped text-center">
                 <thead class="thead-dark">
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
@@ -61,7 +61,7 @@
                             <%= rando.longest_streak.hours %> hours, <%= rando.longest_streak.minutes %> minutes, and <%= rando.longest_streak.seconds %> seconds
                         </td>
                         <td><%= rando.cuss_counter %></td>
-                        <td><button class="btn btn-outline-primary" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2">Just Cussed!</button></td>
+                        <td><button class="btn btn-primary" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2"><%= rando.name %> Just Cussed!</button></td>
                     </tr>
                     <% }) %>
                 </tbody>

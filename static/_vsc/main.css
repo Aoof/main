@@ -15,17 +15,39 @@ html, body {
     font-size: 3em;
 }
 
-.thead-dark
-{
+.thead-dark {
     /* Bootstrap dark */
     background-color: #343a40;
     color: white;
 }
 
-.table > tbody {
-    background-color: rgba(255, 255, 255, 0.5);
-    color: black;
+.table-dark 
+{
+	--bs-table-bg: #21252960;
+    --bs-table-striped-bg: #2c303460;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #373b3e60;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #32353960;
+    --bs-table-hover-color: #fff;
+}
 
+.form-control {
+	/* Dark version */
+	background-color: #212529;
+	border: none;
+
+	color: white;
+}
+
+.form-control:focus {
+    color: white;
+    background-color: #212529;
+}
+
+.users {
+	overflow: auto;
+	height: 500px;
 }
 
 body {
