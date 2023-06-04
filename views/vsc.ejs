@@ -29,7 +29,7 @@
             <div class="input-group mb-3 flex-nowrap">
                 <input type="text" class="form-control" placeholder="Enter the name" aria-label="Recipient's username" aria-describedby="button-addon2" id="name" name="name">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="btn btn-success" type="submit" id="button-addon2">Just Cussed!</button>
+                <button class="btn btn-danger" type="submit" id="button-addon2">Just Cussed!</button>
             </div>
         </form>
         
@@ -61,7 +61,7 @@
                             <%= rando.longest_streak.hours %> hours, <%= rando.longest_streak.minutes %> minutes, and <%= rando.longest_streak.seconds %> seconds
                         </td>
                         <td><%= rando.cuss_counter %></td>
-                        <td><button class="btn btn-primary" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2"><%= rando.name %> Just Cussed!</button></td>
+                        <td style="text-align: left;"><button class="btn btn-danger w-100" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2"><%= rando.name %> Just Cussed!</button></td>
                     </tr>
                     <% }) %>
                 </tbody>
