@@ -25,7 +25,7 @@ export default class VerySecretCompartment {
 
             if (diff > _diff) {
                 days = Math.floor(diff / 24);
-                hours = Math.floor(diff);
+                hours = Math.floor(diff - days * 24);
                 minutes = Math.floor((diff - hours) * 60);
                 seconds = Math.floor((((diff - hours) * 60) - minutes) * 60);
             } else {
