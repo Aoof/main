@@ -26,8 +26,8 @@ export default class VerySecretCompartment {
             if (diff > _diff) {
                 days = Math.floor(diff / 24);
                 hours = Math.floor(diff - days * 24);
-                minutes = Math.floor((diff - hours) * 60);
-                seconds = Math.floor((((diff - hours) * 60) - minutes) * 60);
+                minutes = Math.floor((diff - hours - days * 24) * 60);
+                seconds = Math.floor((((diff - hours - days * 24) * 60) - minutes) * 60);
             } else {
                 days = _days;
                 hours = _hours;
@@ -44,6 +44,8 @@ export default class VerySecretCompartment {
             let hourText   = `${hours}h `
             let minuteText = `${minutes}m `
             let second_text = `${seconds}s `
+
+            if ((days != 0 || hours != 0 || minutes != 0) && seconds == 0) { secondText = " and " + secondText}
 
             if (days == 0)      { dayText = "" }
             if (hours == 0)     { hourText = "" }
