@@ -55,10 +55,11 @@
                         <td><%= rando.name %></td>
                         <td class="last-cursed" data-last-cursed="<%= rando.last_cursed_utc %>"><%= rando.last_cursed %></td>
                         <td class="longest-streak" 
+                            data-days="<%= rando.longest_streak.days %>"
                             data-hours="<%= rando.longest_streak.hours %>"
                             data-minutes="<%= rando.longest_streak.minutes %>"
                             data-seconds="<%= rando.longest_streak.seconds %>">
-                            <%= rando.longest_streak.hours %> hours, <%= rando.longest_streak.minutes %> minutes, and <%= rando.longest_streak.seconds %> seconds
+                            <%= rando.longest_streak.days %>d <%= rando.longest_streak.hours %>h <%= rando.longest_streak.minutes %>m <%= rando.longest_streak.seconds %>s
                         </td>
                         <td><%= rando.cuss_counter %></td>
                         <td style="text-align: left;"><button class="btn btn-danger w-100" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2"><%= rando.name %> Just Cussed!</button></td>

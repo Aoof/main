@@ -83,7 +83,8 @@ Rando.prototype.getAllRandos = function() {
                 rando.last_cursed_utc = moment(rando.last_cursed).utc().format();
                 rando.last_cursed = moment(rando.last_cursed).format("DD-MM-YYYY hh:mm:ss A");
                 rando.longest_streak = {
-                    hours: Math.floor(rando.longest_streak).toString(),
+                    days: Math.floor(rando.longest_streak / 24).toString(),
+                    hours: Math.floor(rando.longest_streak - Math.floor(rando.longest_streak)).toString(),
                     minutes: Math.floor((rando.longest_streak - Math.floor(rando.longest_streak)) * 60).toString(),
                     seconds: Math.floor((((rando.longest_streak - Math.floor(rando.longest_streak)) * 60) - Math.floor((rando.longest_streak - Math.floor(rando.longest_streak)) * 60)) * 60).toString()
                 }

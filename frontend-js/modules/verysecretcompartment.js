@@ -14,29 +14,43 @@ export default class VerySecretCompartment {
             let current = moment(el.parentElement.querySelector(".last-cursed").dataset.lastCursed); // Already offset to local time
             let diff = moment().diff(current, "hours", true)
 
+            let _days = parseInt(el.dataset.days)
             let _hours = parseInt(el.dataset.hours)
             let _minutes = parseInt(el.dataset.minutes)
             let _seconds = parseInt(el.dataset.seconds)
 
-            let _diff = _hours + _minutes / 60 + _seconds / 3600
+            let _diff = _days * 24 + _hours + _minutes / 60 + _seconds / 3600
 
-            let hours = 0, minutes = 0, seconds = 0;
+            let days = 0, hours = 0, minutes = 0, seconds = 0;
 
             if (diff > _diff) {
+                days = Math.floor(diff / 24);
                 hours = Math.floor(diff);
                 minutes = Math.floor((diff - hours) * 60);
                 seconds = Math.floor((((diff - hours) * 60) - minutes) * 60);
             } else {
+                days = _days;
                 hours = _hours;
                 minutes = _minutes;
                 seconds = _seconds;
             }
 
+            el.dataset.days = days
             el.dataset.hours = hours
             el.dataset.minutes = minutes
             el.dataset.seconds = seconds
 
-            el.innerHTML = `${hours} hours, ${minutes} minutes, and ${seconds} seconds`
+            let dayText    = `${days}d `
+            let hourText   = `${hours}h `
+            let minuteText = `${minutes}m `
+            let second_text = `${seconds}s `
+
+            if (days == 0)      { dayText = "" }
+            if (hours == 0)     { hourText = "" }
+            if (minutes == 0)   { minuteText = "" }
+            if (seconds == 0)   { second_text = "a few seconds" }
+
+            el.innerHTML = dayText + hourText + minuteText + second_text;
         })
 
         this.updateLastCursed()
@@ -52,12 +66,29 @@ export default class VerySecretCompartment {
             let time = moment(el.dataset.lastCursed);
             let diff = moment().diff(time, "hours", true);
 
-            let hours = Math.floor(diff);
-            let minutes = Math.floor((diff - hours) * 60);
+            let days = Math.floor(diff / 24);
+            let hours = Math.floor(diff - days * 24);
+            let minutes = Math.floor((diff - hours - days * 24) * 60);
 
             diff = diff + this.counter / 3600;
             
-            el.innerHTML = time.format("DD/MM/YY hh:mm:ss A") + ` (${hours} hours and ${minutes} minutes ago)`;
+            let dayText    = `${days}d `
+            let hourText   = `${hours}h `
+            let minuteText = `${minutes}m `
+
+            if (days == 0)      { dayText = "" }
+            if (hours == 0)     { hourText = "" }
+            if (minutes == 0)   { minuteText = "a few seconds " }
+
+            if ((days != 0 || hours != 0) && minutes == 0) { minuteText = " and " + minuteText}
+
+            let timeText = time.format("DD/MM/YY hh:mm:ss A")
+
+            if (time.get("year") == moment().get("year")) timeText = time.format("(DD/MM) hh:mm:ss A")
+            if (time.get("day") == moment().get("day")) timeText = time.format("hh:mm:ss A")
+            if (time.get("day") == moment().subtract(1, "days").get("day")) timeText = "Yesterday at " + time.format("hh:mm:ss A")
+
+            el.innerHTML = timeText + ` (${dayText}${hourText}${minuteText}ago)`;
         })
     }
 }
