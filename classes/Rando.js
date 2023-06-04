@@ -82,12 +82,13 @@ Rando.prototype.getAllRandos = function() {
             randos = randos.map(rando => {
                 rando.last_cursed_utc = moment(rando.last_cursed).utc().format();
                 rando.last_cursed = moment(rando.last_cursed).format("DD-MM-YYYY hh:mm:ss A");
-                rando.longest_streak = {
-                    days: Math.floor(rando.longest_streak / 24).toString(),
-                    hours: Math.floor(rando.longest_streak - Math.floor(rando.longest_streak)).toString(),
-                    minutes: Math.floor((rando.longest_streak - Math.floor(rando.longest_streak)) * 60).toString(),
-                    seconds: Math.floor((((rando.longest_streak - Math.floor(rando.longest_streak)) * 60) - Math.floor((rando.longest_streak - Math.floor(rando.longest_streak)) * 60)) * 60).toString()
-                }
+
+                days = Math.floor(rando.longest_streak / 24).toString();
+                hours = Math.floor(rando.longest_streak - days * 24).toString();
+                minutes = Math.floor((rando.longest_streak - hours - days * 24) * 60).toString();
+                seconds = Math.floor((((rando.longest_streak - hours - days * 24) * 60) - minutes) * 60).toString();
+
+                rando.longest_streak = { days: days, hours: hours, minutes: minutes, seconds: seconds }
                 return rando;
             });
             randos.sort((a, b) => {
