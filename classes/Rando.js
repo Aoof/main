@@ -7,8 +7,8 @@ let Rando = function(body, isLog = false) {
     this.name = body.name;
     if (isLog) {
         this.legacy_last_cursed = body.legacyLastCursed;
-        this.legacy_longest_streak = body.legacyLongestStreak;
-        this.legacy_cuss_counter = body.legacyCussCounter;
+        this.legacy_longest_streak = parseFloat(body.legacyLongestStreak);
+        this.legacy_cuss_counter = parseInt(body.legacyCussCounter);
     }
     this.last_cursed = moment().utc().format();
     this.longest_streak = 0;
@@ -80,7 +80,7 @@ Rando.prototype.revertToLegacy = function() {
     return new Promise(async (resolve, reject) => {
         let rando = await randosCollection.findOne({ name: this.name })
         if (rando) {
-            randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.legacy_last_cursed, longest_streak: this.legacy_longest_streak, cuss_counter: this.legacy_cuss_counter } })
+            randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.legacy_last_cursed, longest_streak: this.legacy_longest_streak, cuss_counter: parseInt(this.legacy_cuss_counter) } })
             .then(() => {
                 resolve();
             })
