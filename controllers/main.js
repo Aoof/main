@@ -66,8 +66,20 @@ module.exports = {
             req.session.save(() => res.redirect("back"));
         })
     },
+    revertCuss (req, res, next) {
+        let rando = new Rando(req.body, true);
+        rando.revertToLegacy()
+        .then(() => {
+            req.flash("success", "Cuss reverted!");
+            req.session.save(() => res.redirect("back"));
+        })
+        .catch((errors) => {
+            errors.forEach(e => req.flash("errors", e));
+            req.session.save(() => res.redirect("back"));
+        })
+    },
     logTheCuss(req, res, next) {
-        let rando = new Rando(req.body);
+        let rando = new Rando(req.body, true);
         rando.logTheCuss()
         .then(() => {
             next();

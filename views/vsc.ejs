@@ -27,27 +27,38 @@
         
         <div class="toggleable-body pt-3" data-selectee="logs">
             <div class="logs">
-                <!-- who cussed, when (in duration), when (in moment obj), prev timing (in moment obj), old largest streak  -->
                 <table class="table table-dark table-borderless table-striped text-center">
                     <thead class="thead-dark">
+                        <th scope="col">Time Created</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Cussed At</th>
-                        <th scope="col">Previous Cussed At</th>
+                        <th scope="col">Previous Cussed At (UTC)</th>
+                        <th scope="col">Old Cuss Counter</th>
                         <th scope="col">Old Longest Streak</th>
+                        <th></th>
                     </thead>
                     <tbody>
                         <% logs.forEach(log => { %>
+                            <form action="./revert-cuss" method="post" id="<%= log._id %>">
+                                <input type="hidden" name="name" value="<%= log.name %>">
+                                <input type="hidden" name="legacyLastCursed" value="<%= log.prev_cussed_at_utc %>">
+                                <input type="hidden" name="legacyLongestStreak" value="<%= log.old_longest_streak.total %>">
+                                <input type="hidden" name="legacyCussCounter" value="<%= log.old_cuss_counter %>">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            </form>
                         <tr>
+                            <td class="log_time-created" data-last-cursed="<%= log.cussed_at_utc %>"><%= log.cussed_at %></td>
                             <td><%= log.name %></td>
-                            <td><%= log.cussed_at %></td>
-                            <td class="last-cursed exempt" data-last-cursed="<%= log.prev_cussed_at %>"><%= log.prev_cussed_at %></td>
-                            <td class="longest-streak" 
+                            <td class="log_last-cursed" data-last-cursed="<%= log.prev_cussed_at_utc %>"><%= log.prev_cussed_at_utc %></td>
+                            <td><%= log.old_cuss_counter %></td>
+                            <td class="log_longest-streak" 
                                 data-days="<%= log.old_longest_streak.days %>"
                                 data-hours="<%= log.old_longest_streak.hours %>"
                                 data-minutes="<%= log.old_longest_streak.minutes %>"
-                                data-seconds="<%= log.old_longest_streak.seconds %>">
+                                data-seconds="<%= log.old_longest_streak.seconds %>"
+                                data-total="<%= log.old_longest_streak.total %>">
                                 <%= log.old_longest_streak.days %>d <%= log.old_longest_streak.hours %>h <%= log.old_longest_streak.minutes %>m <%= log.old_longest_streak.seconds %>s
                             </td>
+                            <td><button class="btn btn-info" onclick="document.getElementById('<%= log._id %>').submit()">Revert to this</button></td>
                         </tr>
                         <% }) %>
                     </tbody>
@@ -80,8 +91,9 @@
                         <tr>
                             <form action="/rando-just-cussed" method="post" id="form_<%= rando.name %>" hidden>
                                 <input type="hidden" name="name" value="<%= rando.name %>">
-                                <input type="hidden" name="legacyLastCursed" value="<%= rando.last_cursed %>">
+                                <input type="hidden" name="legacyLastCursed" value="<%= rando.last_cursed_utc %>">
                                 <input type="hidden" name="legacyLongestStreak" value="<%= rando.longest_streak.total %>">
+                                <input type="hidden" name="legacyCussCounter" value="<%= rando.cuss_counter %>">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             </form>
                             <td><%= randos.indexOf(rando) +1 %></td>

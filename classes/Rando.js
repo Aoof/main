@@ -2,14 +2,13 @@ const moment = require("moment");
 const randosCollection = require("../db").collection("randos");
 const logsCollection = require("../db").collection("logs");
 
-let Rando = function(body) {
+let Rando = function(body, isLog = false) {
 
     this.name = body.name;
-    if (body.legacyLastCursed) {
+    if (isLog) {
         this.legacy_last_cursed = body.legacyLastCursed;
-    }
-    if (body.legacyLongestStreak) {
         this.legacy_longest_streak = body.legacyLongestStreak;
+        this.legacy_cuss_counter = body.legacyCussCounter;
     }
     this.last_cursed = moment().utc().format();
     this.longest_streak = 0;
@@ -77,13 +76,40 @@ Rando.prototype.randoJustCussed = function() {
         });
 }
 
+Rando.prototype.revertToLegacy = function() {
+    return new Promise(async (resolve, reject) => {
+        let rando = await randosCollection.findOne({ name: this.name })
+        if (rando) {
+            randosCollection.updateOne({ name: this.name }, { $set: { last_cursed: this.legacy_last_cursed, longest_streak: this.legacy_longest_streak, cuss_counter: this.legacy_cuss_counter } })
+            .then(() => {
+                resolve();
+            })
+            .catch(() => {
+                this.errors.push("Please try again later.");
+                reject(this.errors);
+            });
+        }
+        else {
+            this.addRando()
+            .then(() => {
+                resolve();
+            })
+            .catch(() => {
+                this.errors.push("Please try again later.");
+                reject(this.errors);
+            });
+        }
+    });
+}
+
 Rando.prototype.logTheCuss = function() {
     return new Promise(async (resolve, reject) => {
         logsCollection.insertOne({
             name: this.name,
             cussed_at: moment().utc().format(),
             prev_cussed_at: moment(this.legacy_last_cursed).utc().format(),
-            old_longest_streak: this.legacy_longest_streak
+            old_longest_streak: parseFloat(this.legacy_longest_streak),
+            old_cuss_counter: parseInt(this.legacy_cuss_counter)
         })
         .then(() => {
             resolve();
@@ -100,6 +126,8 @@ Rando.prototype.getLogs = function() {
         logsCollection.find().toArray()
         .then(logs => {
             logs = logs.map(log => {
+                if (JSON.stringify(log.old_longest_streak).includes('"')) { log.old_longest_streak = JSON.parse(log.old_longest_streak) }
+
                 log.cussed_at_utc = moment(log.cussed_at).format();
                 log.cussed_at = moment(log.cussed_at).format("DD-MM-YYYY hh:mm:ss A");
                 log.prev_cussed_at_utc = moment(log.prev_cussed_at).format();
@@ -110,15 +138,14 @@ Rando.prototype.getLogs = function() {
                 minutes = Math.floor((log.old_longest_streak - hours - days * 24) * 60).toString();
                 seconds = Math.floor((((log.old_longest_streak - hours - days * 24) * 60) - minutes) * 60).toString();
 
-                log.old_longest_streak = { days: days, hours: hours, minutes: minutes, seconds: seconds, total: log.old_longest_streak }
+                log.old_longest_streak = { days: days, hours: hours, minutes: minutes, seconds: seconds, total: JSON.stringify(log.old_longest_streak) }
                 return log;
             });
-            logs.sort((a, b) => {
-                return moment(b.cussed_at).diff(moment(a.cussed_at));
-            });
+            logs.reverse();
             resolve(logs);
         })
-        .catch(() => {
+        .catch(e => {
+            console.log(e)
             this.errors.push("Please try again later.");
             reject(this.errors);
         });
