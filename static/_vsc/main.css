@@ -50,6 +50,19 @@ html, body {
 	height: 500px;
 }
 
+.logs {
+	overflow-y: auto;
+	height: 550px;
+}
+
+.toggleable-body {
+	display: none;
+}
+
+.toggleable-body.show {
+	display: block;
+}
+
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;

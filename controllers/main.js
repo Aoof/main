@@ -12,16 +12,18 @@ module.exports = {
             res.render("admin");
         }
     },
-    vsc(req, res, next) {
-        dummy = new Rando({name: ""});
-        dummy.getAllRandos()
-        .then(randos => {
-            res.render("vsc", { randos: randos });
-        })
-        .catch(() => {
+    async vsc(req, res, next) {
+        let dummy = new Rando({name: ""});
+        let randos, logs;
+        try {
+            randos = await dummy.getAllRandos();
+            logs = await dummy.getLogs();
+            
+            res.render("vsc", { randos: randos, logs: logs });
+        } catch (e) {
             req.flash("errors", "Please try again later.");
             req.session.save(() => res.redirect("back"));
-        });
+        }
     },
     login(req, res, next) {
         let user = new User(req.body);
@@ -64,11 +66,22 @@ module.exports = {
             req.session.save(() => res.redirect("back"));
         })
     },
-    randoJustCursed(req, res, next) {
+    logTheCuss(req, res, next) {
         let rando = new Rando(req.body);
-        rando.randoJustCursed()
+        rando.logTheCuss()
         .then(() => {
-            req.flash("success", rando.name + " had just cussed.");
+            next();
+        })
+        .catch((errors) => {
+            errors.forEach(e => req.flash("errors", e));
+            req.session.save(() => res.redirect("back"));
+        })
+    },
+    randoJustCussed(req, res, next) {
+        let rando = new Rando(req.body);
+        rando.randoJustCussed()
+        .then(() => {
+            req.flash("success", "Cuss logged!");
             req.session.save(() => res.redirect("back"));
         })
         .catch((errors) => {

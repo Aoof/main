@@ -23,50 +23,84 @@
             <span id="current-time"></span>
         </div>
         
-        <br><br>
-
-        <form action="./rando-just-cussed" method="post">
-            <div class="input-group mb-3 flex-nowrap">
-                <input type="text" class="form-control" placeholder="Enter the name" aria-label="Recipient's username" aria-describedby="button-addon2" id="name" name="name">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="btn btn-danger" type="submit" id="button-addon2">Just Cussed!</button>
-            </div>
-        </form>
+        <button class="btn btn-secondary" id="check-logs" data-selector="logs" data-value="Check logs" data-prev-selectee="">Check logs</button>
         
-        <!-- List of users and what their last cussed time is -->
-        <div class="users">
-            <table class="table table-dark table-borderless table-striped text-center">
-                <thead class="thead-dark">
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Last Cussed</th>
-                    <th scope="col">Longest Streak</th>
-                    <th scope="col">Cuss Count</th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    <% randos.forEach(rando => { %>
-                    <tr>
-                        <form action="/rando-just-cussed" method="post" id="form_<%= rando.name %>" hidden>
-                            <input type="hidden" name="name" value="<%= rando.name %>">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        </form>
-                        <td><%= randos.indexOf(rando) +1 %></td>
-                        <td><%= rando.name %></td>
-                        <td class="last-cursed" data-last-cursed="<%= rando.last_cursed_utc %>"><%= rando.last_cursed %></td>
-                        <td class="longest-streak" 
-                            data-days="<%= rando.longest_streak.days %>"
-                            data-hours="<%= rando.longest_streak.hours %>"
-                            data-minutes="<%= rando.longest_streak.minutes %>"
-                            data-seconds="<%= rando.longest_streak.seconds %>">
-                            <%= rando.longest_streak.days %>d <%= rando.longest_streak.hours %>h <%= rando.longest_streak.minutes %>m <%= rando.longest_streak.seconds %>s
-                        </td>
-                        <td><%= rando.cuss_counter %></td>
-                        <td style="text-align: left;"><button class="btn btn-danger w-100" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2"><%= rando.name %> Just Cussed!</button></td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+        <div class="toggleable-body pt-3" data-selectee="logs">
+            <div class="logs">
+                <!-- who cussed, when (in duration), when (in moment obj), prev timing (in moment obj), old largest streak  -->
+                <table class="table table-dark table-borderless table-striped text-center">
+                    <thead class="thead-dark">
+                        <th scope="col">Name</th>
+                        <th scope="col">Cussed At</th>
+                        <th scope="col">Previous Cussed At</th>
+                        <th scope="col">Old Longest Streak</th>
+                    </thead>
+                    <tbody>
+                        <% logs.forEach(log => { %>
+                        <tr>
+                            <td><%= log.name %></td>
+                            <td><%= log.cussed_at %></td>
+                            <td class="last-cursed exempt" data-last-cursed="<%= log.prev_cussed_at %>"><%= log.prev_cussed_at %></td>
+                            <td class="longest-streak" 
+                                data-days="<%= log.old_longest_streak.days %>"
+                                data-hours="<%= log.old_longest_streak.hours %>"
+                                data-minutes="<%= log.old_longest_streak.minutes %>"
+                                data-seconds="<%= log.old_longest_streak.seconds %>">
+                                <%= log.old_longest_streak.days %>d <%= log.old_longest_streak.hours %>h <%= log.old_longest_streak.minutes %>m <%= log.old_longest_streak.seconds %>s
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="toggleable-body show pt-3" data-selectee="users">
+            <form action="./rando-just-cussed" method="post">
+                <div class="input-group mb-3 flex-nowrap">
+                    <input type="text" class="form-control" placeholder="Enter the name" aria-label="Recipient's username" aria-describedby="button-addon2" id="name" name="name">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button class="btn btn-danger" type="submit" id="button-addon2">Just Cussed!</button>
+                </div>
+            </form>
+            
+            <!-- List of users and what their last cussed time is -->
+            <div class="users">
+                <table class="table table-dark table-borderless table-striped text-center">
+                    <thead class="thead-dark">
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Last Cussed</th>
+                        <th scope="col">Longest Streak</th>
+                        <th scope="col">Cuss Count</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <% randos.forEach(rando => { %>
+                        <tr>
+                            <form action="/rando-just-cussed" method="post" id="form_<%= rando.name %>" hidden>
+                                <input type="hidden" name="name" value="<%= rando.name %>">
+                                <input type="hidden" name="legacyLastCursed" value="<%= rando.last_cursed %>">
+                                <input type="hidden" name="legacyLongestStreak" value="<%= rando.longest_streak.total %>">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            </form>
+                            <td><%= randos.indexOf(rando) +1 %></td>
+                            <td><%= rando.name %></td>
+                            <td class="last-cursed" data-last-cursed="<%= rando.last_cursed_utc %>"><%= rando.last_cursed %></td>
+                            <td class="longest-streak" 
+                                data-days="<%= rando.longest_streak.days %>"
+                                data-hours="<%= rando.longest_streak.hours %>"
+                                data-minutes="<%= rando.longest_streak.minutes %>"
+                                data-seconds="<%= rando.longest_streak.seconds %>">
+                                <%= rando.longest_streak.days %>d <%= rando.longest_streak.hours %>h <%= rando.longest_streak.minutes %>m <%= rando.longest_streak.seconds %>s
+                            </td>
+                            <td><%= rando.cuss_counter %></td>
+                            <td style="text-align: left;"><button class="btn btn-danger w-100" onclick="document.querySelector('#form_<%= rando.name %>').submit()" id="button-addon2"><%= rando.name %> Just Cussed!</button></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

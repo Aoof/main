@@ -5,6 +5,9 @@ export default class VerySecretCompartment {
         this.lastCursedElems = document.querySelectorAll(".last-cursed");
         this.streaks = document.querySelectorAll(".longest-streak");
 
+        this.checkLogsBtn = document.querySelector("#check-logs");
+        this.toggleableBodies = document.querySelectorAll(".toggleable-body");
+
         this.counter = 0;
         this.events()
     }
@@ -43,19 +46,20 @@ export default class VerySecretCompartment {
             let dayText    = `${days}d `
             let hourText   = `${hours}h `
             let minuteText = `${minutes}m `
-            let second_text = `${seconds}s `
+            let secondText = `${seconds}s `
 
             if ((days != 0 || hours != 0 || minutes != 0) && seconds == 0) { secondText = " and " + secondText}
 
             if (days == 0)      { dayText = "" }
             if (hours == 0)     { hourText = "" }
             if (minutes == 0)   { minuteText = "" }
-            if (seconds == 0)   { second_text = "a few seconds" }
+            if (seconds == 0)   { secondText = "a few seconds" }
 
-            el.innerHTML = dayText + hourText + minuteText + second_text;
+            el.innerHTML = dayText + hourText + minuteText + secondText;
         })
 
         this.updateLastCursed()
+        this.setupCheckLogs()
 
         setInterval(() => {
             this.updateLastCursed()
@@ -86,11 +90,47 @@ export default class VerySecretCompartment {
 
             let timeText = time.format("DD/MM/YY hh:mm:ss A")
 
-            if (time.get("year") == moment().get("year")) timeText = time.format("(DD/MM) hh:mm:ss A")
-            if (time.get("day") == moment().get("day")) timeText = time.format("hh:mm:ss A")
-            if (time.get("day") == moment().subtract(1, "days").get("day")) timeText = "Yesterday at " + time.format("hh:mm:ss A")
+            
+            if (!el.classList.contains("exempt")) {
+                if (time.get("year") == moment().get("year")) timeText = time.format("(DD/MM) hh:mm:ss A")
+                if (time.get("day") == moment().get("day")) timeText = time.format("hh:mm:ss A")
+                if (time.get("day") == moment().subtract(1, "days").get("day")) timeText = "Yesterday at " + time.format("hh:mm:ss A")
 
-            el.innerHTML = timeText + ` (${dayText}${hourText}${minuteText}ago)`;
+                el.innerHTML = timeText + ` (${dayText}${hourText}${minuteText}ago)`;
+            } else {
+                el.innerHTML = timeText;
+            }
+        })
+    }
+
+    setupCheckLogs() {
+        this.checkLogsBtn.addEventListener("click", () => {
+            let selector = this.checkLogsBtn.dataset.selector;
+            if (this.checkLogsBtn.classList.contains("activated")) {
+                this.checkLogsBtn.classList.remove("activated");
+                this.checkLogsBtn.innerHTML = this.checkLogsBtn.dataset.value;
+                this.toggleableBodies.forEach(el => {
+                    if (el.dataset.selectee == this.checkLogsBtn.dataset.prevSelectee)
+                    {
+                        el.classList.add("show");
+                    } else {
+                        el.classList.remove("show");
+                    }
+                })
+                return;
+            }
+
+            this.toggleableBodies.forEach(el => {
+                if (el.dataset.selectee == selector) {
+                    el.classList.add("show");
+                } else if (el.classList.contains("show")) {
+                    el.classList.remove("show");
+                    this.checkLogsBtn.dataset.prevSelectee = el.dataset.selectee;
+                }
+            })
+
+            this.checkLogsBtn.classList.toggle("activated");
+            this.checkLogsBtn.innerHTML = "Close"
         })
     }
 }
