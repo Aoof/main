@@ -156,6 +156,9 @@ Rando.prototype.getAllRandos = function() {
     return new Promise(async (resolve, reject) => {
         randosCollection.find().toArray()
         .then(randos => {
+            randos.sort((a, b) => {
+                return -moment(b.last_cursed).diff(moment(a.last_cursed));
+            });
             randos = randos.map(rando => {
                 rando.last_cursed_utc = moment(rando.last_cursed).utc().format();
                 rando.last_cursed = moment(rando.last_cursed).format("DD-MM-YYYY hh:mm:ss A");
@@ -167,9 +170,6 @@ Rando.prototype.getAllRandos = function() {
 
                 rando.longest_streak = { days: days, hours: hours, minutes: minutes, seconds: seconds, total: rando.longest_streak }
                 return rando;
-            });
-            randos.sort((a, b) => {
-                return -moment(b.last_cursed).diff(moment(a.last_cursed));
             });
             resolve(randos);
         })
