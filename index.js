@@ -34,7 +34,7 @@ app.use(async function(req, res, next) {
     next();
 })
 
-app.use(cors());
+app.use(cors(':method :url :status :res[content-length] bytes - :response-time ms'));
 
 app.use(express.static(path.join(__dirname, "static")));
 app.set("views", path.join(__dirname, "views"));
