@@ -47,6 +47,14 @@ app.use(async function(req, res, next) {
     next();
 })
 
+app.get("/.well-known/acme-challenge/:content", function(req, res) {
+    let content = req.params.content;
+    let static = path.join(__dirname, "static");
+    let challenge = path.join(static, ".well-known", "acme-challenge", content);
+
+    res.sendFile(challenge);
+});
+
 app.use("/", require("./router"));
 
 app.use(function(err, req, res, next) {
