@@ -247,20 +247,6 @@ html body .projects .card .desc p a {
   color: rgba(180, 180, 255, 0.7);
 }
 
-html body::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  left: -20%;
-  right: -20%;
-  -webkit-transform: rotate(10deg);
-          transform: rotate(10deg);
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 200%;
-  height: 100%;
-  z-index: -1;
-}
-
 .contacts {
   width: -webkit-fill-available;
   width: -moz-available;
