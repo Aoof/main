@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html {
   overflow-x: hidden;
 }
@@ -28,6 +34,18 @@ html body .container .profile {
   border: 2px solid black;
   margin: 30px;
   grid-column: 1 span;
+}
+
+.desc {
+  line-height: 1.5;
+}
+
+.desc * {
+  margin: 1rem 0;
+}
+
+ul {
+  margin-left: 1.5rem !important;
 }
 
 html body .container .headline {
@@ -211,15 +229,18 @@ html body .projects .headline {
 
 html body .projects .card .desc {
   grid-column: 2 / 8 span;
+  margin: 2rem 0;
 }
 
 html body .projects .card .desc .header {
   font-size: 18pt;
   text-align: center;
+  margin: 1.5rem 0;
 }
 
 html body .projects .card .desc p {
   color: rgba(255, 255, 255, 0.8);
+  margin-left: 1.5rem;
 }
 
 html body .projects .card .desc p a {
@@ -238,6 +259,21 @@ html body::before {
   width: 200%;
   height: 100%;
   z-index: -1;
+}
+
+.contacts {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  grid-column: 2 / 8 span;
+  color: white;
+}
+
+.contacts a svg {
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  fill: rgba(180, 180, 255, 0.7);
 }
 
 @media only screen and (max-width: 870px) {
