@@ -1,12 +1,18 @@
 const Recipe = require('../classes/Recipe');
 
 module.exports = {
-    faeGrimoire: function(req, res) {
+    faeGrimoire: async function(req, res) {
         if (req.session.user) {
-            res.render('fae-sparkles');
+            let recipe = new Recipe();
+            let recipes = await recipe.getRecipes();
+
+            res.render('fae/fae-sparkles', {recipes: recipes});
         } else {
-            res.render('login')
+            res.render('fae/login');
         }
+    },
+    addRecipeScreen: function(req, res) {
+        res.render('fae/add-recipe');
     },
     addRecipe: function(req, res) {
         let recipe = new Recipe(req.body);

@@ -21,6 +21,7 @@ Recipe.prototype.cleanUp = function () {
         ingredients: this.data.ingredients,
         cookTime: this.data.cookTime,
         tags: this.data.tags,
+        createdDate: this.updateMode ? this.data.createdDate : new Date()
     }
 
     if (this.updateMode) {
