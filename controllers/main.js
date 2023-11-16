@@ -41,6 +41,9 @@ module.exports = {
             req.session.save(() => res.redirect("back"));
         })
     },
+    registerScreen(req, res, next) {
+        res.render("register");
+    }, 
     mustBeLoggedIn(req, res, next) {
         if (req.session.user) {
             next();
@@ -51,7 +54,7 @@ module.exports = {
     },
     logout(req, res, next) {
         req.session.destroy(() => {
-            res.redirect("/");
+            res.redirect("back");
         })
     },
     register(req, res, next) {

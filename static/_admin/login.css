@@ -1,11 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap");
+* {
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+}
+
 html, body {
-  background-color: #001f3f;
+  background-color: #463F3A;
   color: white;
   margin: 0;
   padding: 0;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-
 html .container, body .container {
   position: absolute;
   top: 0;
@@ -13,51 +18,45 @@ html .container, body .container {
   width: -webkit-fill-available;
   width: -moz-available;
   width: stretch;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  align-content: center;
   text-align: center;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
   margin: auto;
   padding: 30px;
 }
-
 html .container form, body .container form {
-  width: 50%;
+  max-width: 700px;
   margin: auto;
   text-align: left;
 }
-
 html .container form *, body .container form * {
   font-size: 1.2em;
 }
-
 html .container form .form-group, body .container form .form-group {
   padding: 10px 0;
 }
-
 html .container form .form-group input, body .container form .form-group input {
-  padding: 7px 3px;
+  padding: 10px 20px;
   margin: 5px 0;
   border-radius: 7px;
-  color: black;
-  border: none;
+  color: #fff;
+  background-color: rgba(70, 63, 58, 0.2078431373);
+  border: 1px solid rgb(255, 255, 255);
   width: -webkit-fill-available;
   width: -moz-available;
   width: stretch;
 }
-
 html .container form .btn, body .container form .btn {
   border: none;
   border-radius: 9px;
   padding: 10px 25px;
   cursor: pointer;
-  background-color: #0074D9;
-  color: white;
+  background-color: #E0AFA0;
+  color: #463F3A;
+  font-weight: 600;
+  margin: 20px 0;
 }
 
 @media only screen and (max-width: 860px) {
@@ -66,5 +65,4 @@ html .container form .btn, body .container form .btn {
     width: -moz-available !important;
     width: stretch !important;
   }
-}
-/*# sourceMappingURL=adminlogin.css.map */
+}/*# sourceMappingURL=login.css.map */
