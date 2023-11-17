@@ -13,10 +13,11 @@ router.post('/revert-cuss',             controller.revertCuss);
 // router.get('/register',                     controller.registerScreen);
 router.get('/fae-sparkles',                 faeController.faeGrimoire);
 router.get('/fae-sparkles/add-recipe',      controller.mustBeLoggedIn, faeController.addRecipeScreen);
+router.get('/fae-sparkles/edit-recipe/:id', controller.mustBeLoggedIn, faeController.editRecipeScreen);
 
 router.post('/fae-sparkles/add-recipe',     controller.mustBeLoggedIn, faeController.addRecipe);
-router.post('/fae-sparkles/edit-recipe',    controller.mustBeLoggedIn, faeController.editRecipe);
-router.post('/fae-sparkles/delete-recipe',  controller.mustBeLoggedIn, faeController.deleteRecipe);
+router.post('/fae-sparkles/edit-recipe/:id',    controller.mustBeLoggedIn, faeController.editRecipe);
+router.post('/fae-sparkles/delete-recipe/:id',  controller.mustBeLoggedIn, faeController.deleteRecipe);
 
 // Admin Routes
 // router.get('/admin',            controller.admin);

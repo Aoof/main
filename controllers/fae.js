@@ -1,41 +1,107 @@
 const Recipe = require('../classes/Recipe');
 
 module.exports = {
-    faeGrimoire: async function(req, res) {
+    async faeGrimoire(req, res, next) {
         if (req.session.user) {
             let recipe = new Recipe();
-            let recipes = await recipe.getRecipes();
+            recipe.getRecipes().then(recipes => {
+                // Filter and sorting
+                let allTitles = [];
+                let allIngredients = [];
+                let allInstructions = [];
+                let allTags = [];
 
-            res.render('fae/fae-sparkles', {recipes: recipes});
+                recipes.forEach(recipe => {
+                    allTitles.push(recipe.title);
+                    recipe.ingredients.forEach(ingredient => {
+                        allIngredients.push(ingredient);
+                    });
+                    allInstructions.push(recipe.instructions);
+                    recipe.tags.forEach(tag => {
+                        allTags.push(tag);
+                    });
+                });
+
+                res.render('fae/fae-sparkles', {recipes: recipes, allTitles, allIngredients, allInstructions, allTags});
+            }).catch(err => {
+                res.render('fae/fae-sparkles', {recipes: []});
+            });
         } else {
             res.render('fae/login');
         }
     },
-    addRecipeScreen: function(req, res) {
+    addRecipeScreen(req, res, next) {
         res.render('fae/add-recipe');
     },
-    addRecipe: function(req, res) {
+    async editRecipeScreen(req, res, next) {
+        let recipe = new Recipe();
+        let recipes = await recipe.getRecipes();
+        let recipeToEdit = recipes.find(recipe => recipe._id == req.params.id);
+
+        console.log(recipeToEdit)
+
+        // Filter and sorting
+        let allTitles = [];
+        let allIngredients = [];
+        let allInstructions = [];
+        let allTags = [];
+
+        recipes.forEach(recipe => {
+            allTitles.push(recipe.title);
+            recipe.ingredients.forEach(ingredient => {
+                allIngredients.push(ingredient);
+            });
+            allInstructions.push(recipe.instructions);
+            recipe.tags.forEach(tag => {
+                allTags.push(tag);
+            });
+        });
+
+        res.render('fae/edit-recipe', {recipe: recipeToEdit, allTitles, allIngredients, allInstructions, allTags});
+    },
+    addRecipe(req, res, next) {  
         let recipe = new Recipe(req.body);
         recipe.addRecipe().then(() => {
-            res.send('Recipe added successfully.');
+            res.status(200).send('Recipe added successfully.');
         }).catch((err) => {
-            res.send(err);
+            res.status(500).send(err);
         });
     },
-    editRecipe: function(req, res) {
+    async editRecipe(req, res, next) {
+        req.body._id = req.params.id;
         let recipe = new Recipe(req.body);
+        recipe.updateMode = true;
+
+        let recipes = await recipe.getRecipes();
+        let recipeToEdit = recipes.find(recipe => recipe._id == req.params.id);
+
+        recipe.data.createdDate = recipeToEdit.createdDate;
+
         recipe.editRecipe().then(() => {
-            res.send('Recipe edited successfully.');
+            req.flash('success', 'Recipe updated successfully.');
+            req.session.save(() => res.redirect('back'));
         }).catch((err) => {
-            res.send(err);
+            console.log(err)
+            if (typeof(err) == 'string') err = [err];
+            err.forEach(error => {
+                req.flash('errors', error);
+            });
+            req.session.save(() => res.redirect('back'));
         });
     },
-    deleteRecipe: function(req, res) {
+    deleteRecipe(req, res, next) {
+        req.body._id = req.params.id;
         let recipe = new Recipe(req.body);
+        recipe.updateMode = true;
         recipe.deleteRecipe().then(() => {
-            res.send('Recipe deleted successfully.');
+            req.flash('success', 'Recipe deleted successfully.');
+            req.session.save(() => res.redirect('back'));
         }).catch((err) => {
-            res.send(err);
+            if (typeof(err) == 'string') err = [err];
+            err.forEach(error => {
+                req.flash('errors', error);
+            });
+            req.session.save(() => res.redirect('back'));
         });
     }
 }

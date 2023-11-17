@@ -4,6 +4,12 @@
     margin: 10px 0;
     width: 100%;
     width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
   }
   
   .alert>button {
@@ -11,6 +17,8 @@
     border: none;
     cursor: pointer;
     color: white;
+    font-size: 2rem;
+    font-weight: 600;
   }
   
   .alert-danger {

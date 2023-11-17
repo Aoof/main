@@ -1,11 +1,14 @@
+import axios from "axios";
 export default class FaeGrimoire {
     constructor() {
+        this.faeGrimoire = document.querySelector(".fae-grimoire");
+        
         this.searchBar = document.querySelector(".search");
         this.popupBtns = document.querySelectorAll(".popup-btn");
         this.popupForms = document.querySelectorAll(".popup-form");
 
-        this.amount = document.querySelector(".ingredient-btns #ingredient-amount");
-        this.name = document.querySelector(".ingredient-btns #ingredient-name");
+        this.amount = document.querySelector(".ingredient-btns .ingredient-amount.main");
+        this.name = document.querySelector(".ingredient-btns .ingredient-name.main");
 
         this.events();
     }
@@ -31,9 +34,14 @@ export default class FaeGrimoire {
             this.setupAddRecipeForm();
         }
 
+        if (document.querySelector("#edit-recipe"))
+        {
+            this.setupEditRecipeForm();
+        }
+
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {
-                if (document.querySelector("#add-recipe")) {
+                if (document.querySelector("#add-recipe") || document.querySelector("#edit-recipe")) {
                     e.preventDefault();
                 }
             }
@@ -43,7 +51,12 @@ export default class FaeGrimoire {
             if (e.key == "Enter") {
                 if (document.querySelector("#add-recipe")) {
                     e.preventDefault();
-                    this.addRecipe();
+                    this.addUpdateRecipe();
+                }
+
+                if (document.querySelector("#edit-recipe")) {
+                    e.preventDefault();
+                    this.addUpdateRecipe();
                 }
             }
         })
@@ -76,10 +89,16 @@ export default class FaeGrimoire {
                 this.toggleAddRecipePopup();
                 break;
             case "edit-recipe":
-                this.toggleEditRecipePopup();
+                this.toggleEditRecipePopup({
+                    id: btn.dataset.recipeId,
+                    title: btn.dataset.recipeTitle
+                });
                 break;
             case "delete-recipe":
-                this.toggleDeleteRecipePopup();
+                this.toggleDeleteRecipePopup({
+                    id: btn.dataset.recipeId,
+                    title: btn.dataset.recipeTitle
+                });
                 break;
             default:
                 console.log("Error: Invalid popup ID.");
@@ -91,21 +110,88 @@ export default class FaeGrimoire {
         window.location.href = "/fae-sparkles/add-recipe";
     }
 
-    toggleEditRecipePopup() {
-        let popup = document.querySelector("#edit-recipe");
-        popup.classList.toggle("hidden");
+    toggleEditRecipePopup(recipe) {
+        if (recipe == undefined) return;
+
+        window.location.href = `/fae-sparkles/edit-recipe/${recipe.id}`;
     }
 
-    toggleDeleteRecipePopup() {
+    toggleDeleteRecipePopup(recipe) {
+        if (recipe == undefined) return;
+
+        let id = recipe.id;
+        let title = recipe.title;
+
         let popup = document.querySelector("#delete-recipe");
         popup.classList.toggle("hidden");
+
+        let form = popup.querySelector("form");
+        form.action = `/fae-sparkles/delete-recipe/${id}`;
+
+        let recipeTitle = popup.querySelector(`#recipeTitle`);
+        recipeTitle.innerText = title;
+    }
+
+    setupEditRecipeForm() {
+        this.editRecipeForm = document.querySelector("#edit-recipe form");
+        this.editRecipeForm.addEventListener("submit", e => {
+            e.preventDefault();
+            this.addUpdateRecipe();
+        });
+
+        this.addIngredientBtn = document.querySelector(".btn-add-ingredient");
+        if (this.addIngredientBtn)
+        {
+            this.addIngredientBtn.addEventListener("click", e => {
+                e.preventDefault();
+                this.addIngredient();
+            });
+        }
+
+        this.cancelBtn = document.querySelector(".btn-cancel");
+        if (this.cancelBtn)
+        {
+            this.cancelBtn.addEventListener("click", e => {
+                e.preventDefault();
+                window.location.href = "/fae-sparkles";
+            })
+        }
+
+        this.tagGroup = document.querySelector(".form-display-tags");
+        if (this.tagGroup)
+        {
+            this.tagGroup.parentElement.addEventListener("click", e => {
+                e.preventDefault();
+                this.tagGroup.focus();
+            });
+
+            this.tagGroup.addEventListener("keydown", e => {
+                if (e.key == " " || e.key == "Enter") {
+                    e.preventDefault();
+                    if (this.tagGroup.value.trim() != "") {
+                        this.addTag();
+                    }
+                }
+            });
+        }
+
+        this.removeIngredientBtns = document.querySelectorAll(".btn-remove-ingredient");
+        if (this.removeIngredientBtns)
+        {
+            this.removeIngredientBtns.forEach(btn => {
+                btn.addEventListener("click", e => {
+                    e.preventDefault();
+                    btn.parentElement.remove();
+                });
+            });
+        }
     }
 
     setupAddRecipeForm() {
         this.addRecipeForm = document.querySelector("#add-recipe form");
         this.addRecipeForm.addEventListener("submit", e => {
             e.preventDefault();
-            this.addRecipe();
+            this.addUpdateRecipe();
         });
 
         this.addIngredientBtn = document.querySelector(".btn-add-ingredient");
@@ -129,17 +215,32 @@ export default class FaeGrimoire {
         this.tagGroup = document.querySelector(".form-display-tags");
         if (this.tagGroup)
         {
+            this.tagGroup.parentElement.addEventListener("click", e => {
+                e.preventDefault();
+                this.tagGroup.focus();
+            });
+
             this.tagGroup.addEventListener("keydown", e => {
                 if (e.key == " " || e.key == "Enter") {
                     e.preventDefault();
-                    let tag = document.createElement("div");
-                    tag.classList.add("tag");
-                    tag.innerHTML = `<span>${this.tagGroup.value}</span><button class="btn-remove-tag">-</button>`;
-                    this.tagGroup.value = "";
-                    this.tagGroup.parentElement.insertBefore(tag, this.tagGroup);
+                    if (this.tagGroup.value.trim() != "") {
+                        this.addTag();
+                    }
                 }
             });
         }
+    }
+
+    addTag() {
+        let tag = document.createElement("div");
+        tag.classList.add("tag");
+        tag.innerHTML = `<span>${this.tagGroup.value}</span><button class="btn-remove-tag">-</button>`;
+        this.tagGroup.value = "";
+        tag.addEventListener("click", e => {
+            e.preventDefault();
+            tag.remove();
+        });
+        this.tagGroup.parentElement.insertBefore(tag, this.tagGroup);
     }
 
     addIngredient() {
@@ -147,8 +248,8 @@ export default class FaeGrimoire {
         let ingredient = document.createElement("div");
         ingredient.classList.add("ingredient");
         ingredient.classList.add("grid");
-        ingredient.innerHTML = `<input type="text" class="amount-input name col-3" placeholder="Amount" value="${this.amount.value}">
-        <input type="text" class="ingredient-input amount col-8" placeholder="Ingredient" value="${this.name.value}">
+        ingredient.innerHTML = `<input type="text" class="ingredient-amount name col-3" placeholder="Amount" value="${this.amount.value}">
+        <input type="text" class="ingredient-name amount col-8" placeholder="Ingredient" value="${this.name.value}">
         <button id="remove-ingredient" class="btn btn-remove-ingredient col-1">-</button>`;
         this.amount.value = "";
         this.name.value = "";
@@ -167,24 +268,39 @@ export default class FaeGrimoire {
         }
     }
 
-    addRecipe() {
+    addUpdateRecipe() {
+        this.faeGrimoire = document.querySelector(".fae-grimoire");
+        let action = this.faeGrimoire.querySelector("form").action;
+
         let data = {
             title: document.querySelector("#title").value,
             ingredients: [],
+            tags: [],
             instructions: document.querySelector("#instructions").value,
             cookTime: document.querySelector("#cookTime").value
         };
 
-        if (document.querySelector("#ingredient-name").value != "" && document.querySelector("#ingredient-amount").value != "") {
+        if (document.querySelector(".ingredient-name.main").value.trim() != "" && document.querySelector(".ingredient-amount.main").value.trim() != "") {
             this.addIngredient();
             return;
         }
 
-        let ingredients = document.querySelectorAll(".ingredient");
+        if (document.querySelector(".form-display-tags").value.trim() != "") {
+            this.addTag();
+            return;
+        }
+
+        let tags = document.querySelectorAll(".tag");
+
+        tags.forEach(tag => {
+            data.tags.push(tag.querySelector("span").innerText);
+        });
+
+        let ingredients = document.querySelectorAll(".ingredient:not(.default)");
 
         ingredients.forEach(ingredient => {
-            let ingredientInput = ingredient.querySelector("#ingredient-name");
-            let amountInput = ingredient.querySelector("#ingredient-amount");
+            let ingredientInput = ingredient.querySelector(".ingredient-name");
+            let amountInput = ingredient.querySelector(".ingredient-amount");
 
             data.ingredients.push({
                 ingredient: ingredientInput.value,
@@ -192,16 +308,54 @@ export default class FaeGrimoire {
             });
         });
 
-        fetch("/fae-sparkles/add-recipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }).then(res => {
-            console.log(res);
-        }).catch(err => {
-            console.log(err);
+        if (data.title == "") {
+            this.showErrorMessage("You must provide a title.");
+            return;
+        }
+
+        if (data.ingredients.length == 0) {
+            this.showErrorMessage("You must provide ingredients.");
+            return;
+        }
+
+        if (data.instructions == "") {
+            this.showErrorMessage("You must provide instructions.");
+            return;
+        }
+
+        if (data.cookTime == 0) {
+            this.showErrorMessage("You must provide a cook time.");
+            return;
+        }
+
+        let csrf = document.querySelector("input[name='_csrf']").value;
+
+        data._csrf = csrf;
+
+        axios.post(action, data).then((response) => {
+            if (typeof response.data == "string") {
+                window.location.href = "/fae-sparkles";
+            } else {
+                this.showErrorMessage(response);
+            }
+        }).catch(e => {
+            console.error(e);
+            this.showErrorMessage("Please try again later.");
         });
+    }
+
+    showErrorMessage(err) {
+        let error = document.createElement("div");
+        error.classList.add("alert");
+        error.classList.add("alert-danger");
+
+        error.addEventListener("click", e => {
+            e.preventDefault();
+            error.remove();
+        });
+
+        error.innerHTML = `${err}<button class="close">&times;</button>`;
+
+        this.faeGrimoire.insertBefore(error, this.faeGrimoire.firstChild);
     }
 }

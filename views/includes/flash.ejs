@@ -1,14 +1,14 @@
   
 <% errors.forEach(function(message) { %>
-    <div class="alert alert-danger">
+    <div class="alert alert-danger" onclick="this.style.display = 'none'">
         <%= message %>
-        <button onclick='this.parentElement.style.display = "none" '><i class='fa fa-times text-danger float-right'></i></button>
+        <button><i class='fa fa-times text-danger float-right'></i></button>
     </div>
 <% }) %>
 
 <% success.forEach(function(message) { %>
-    <div class="alert alert-success">
+    <div class="alert alert-success" onclick="this.style.display = 'none'">
         <%= message %>
-        <button onclick='this.parentElement.style.display = "none" '><i class='fa fa-times text-danger float-right'></i></button>
+        <button><i class='fa fa-times text-danger float-right'></i></button>
     </div>
 <% }) %>

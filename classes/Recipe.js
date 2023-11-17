@@ -11,10 +11,11 @@ Recipe.prototype.cleanUp = function () {
     if (typeof (this.data.title) != "string") { this.data.title = ""; }
     if (typeof (this.data.instructions) != "string") { this.data.instructions = ""; }
     if (typeof (this.data.ingredients) != "object") { this.data.ingredients = []; }
-    if (typeof (this.data.cookTime) != "number") { this.data.cookTime = 0; }
+    if (typeof (this.data.cookTime) != "string") { this.data.cookTime = ""; }
     if (typeof (this.data.tags) != "object") { this.data.tags = []; }
 
-    // get rid of any bogus properties
+    let _id = this.data._id;
+
     this.data = {
         title: this.data.title.trim(),
         instructions: this.data.instructions.trim(),
@@ -25,7 +26,7 @@ Recipe.prototype.cleanUp = function () {
     }
 
     if (this.updateMode) {
-        this.data._id = ObjectId(this.data._id);
+        this.data._id = _id;
     }
 }
 
@@ -34,20 +35,24 @@ Recipe.prototype.validate = function () {
         if (this.data.title == "") { this.errors.push("You must provide a title."); }
         if (this.data.ingredients == []) { this.errors.push("You must provide ingredients."); }
         if (this.data.instructions == "") { this.errors.push("You must provide instructions."); }
-        if (this.data.cookTime == 0) { this.errors.push("You must provide a cook time."); }
+        if (this.data.cookTime == "") { this.errors.push("You must provide a cook time."); }
 
         resolve();
     });
 }
 
 Recipe.prototype.addRecipe = function () {
-    new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         this.cleanUp();
         await this.validate();
 
         if (!this.errors.length) {
-            recipeCollection.insertOne(this.data);
-            resolve();
+            try {
+                await recipeCollection.insertOne(this.data);
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
         } else {
             reject(this.errors);
         }
@@ -55,13 +60,24 @@ Recipe.prototype.addRecipe = function () {
 }
 
 Recipe.prototype.editRecipe = function () {
-    new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         this.cleanUp();
         await this.validate();
 
         if (!this.errors.length) {
-            recipeCollection.updateOne({ _id: this.data._id }, { $set: this.data })
-            resolve();
+            try {
+                await recipeCollection.updateOne({ _id: new ObjectId(this.data._id) }, { $set: {
+                    title: this.data.title,
+                    instructions: this.data.instructions,
+                    ingredients: this.data.ingredients,
+                    cookTime: this.data.cookTime,
+                    tags: this.data.tags,
+                    createdDate: this.data.createdDate
+                } })
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
         } else {
             reject(this.errors);
         }
@@ -69,15 +85,12 @@ Recipe.prototype.editRecipe = function () {
 }
 
 Recipe.prototype.deleteRecipe = function () {
-    new Promise(async (resolve, reject) => {
-        this.cleanUp();
-        await this.validate();
-
-        if (!this.errors.length) {
-            recipeCollection.deleteOne({ _id: this.data._id });
+    return new Promise(async (resolve, reject) => {
+        try {
+            await recipeCollection.deleteOne({ _id: new ObjectId(this.data._id) });
             resolve();
-        } else {
-            reject(this.errors);
+        } catch (err) {
+            reject(err);
         }
     });
 }

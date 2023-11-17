@@ -100,13 +100,12 @@ body svg {
     font-size: 3rem;
     font-weight: 300;
     margin-bottom: 1rem;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
     cursor: default;
 }
 
 .header h1:hover {
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.722);
-    transform: scale(1.1);
+    transform: scale(1.5);
 }
 
 .container .wrapper {
@@ -117,6 +116,29 @@ body svg {
     border: 1px solid #8A817C;
     background-color: #463F3A;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.container .wrapper .recipe {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background-color: #8a817c58;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.container .wrapper .recipe:hover {
+    background-color: #8a817c;
+}
+
+.container .wrapper .recipe .title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .popup-form {
@@ -362,6 +384,13 @@ body svg {
     border-radius: 0.25rem;
 }
 
+.form-group input:focus {
+    color: #fff;
+    border-color: #8A817C;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
 .form-group textarea {
     width: 100%;
     padding: 0.75rem 1.5rem;
@@ -374,6 +403,13 @@ body svg {
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     resize: vertical;
+}
+
+.form-group textarea:focus {
+    color: #fff;
+    border-color: #8A817C;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
 }
 
 .form-group select {
@@ -390,9 +426,87 @@ body svg {
     border-radius: 0.25rem;
 }
 
+.form-group select:focus {
+    color: #fff;
+    border-color: #8A817C;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
 .form-group.submit {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
+}
+
+.form-tag-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    vertical-align: middle;
+    gap: 10px;
+    padding: 25px 20px;
+    flex-wrap: wrap;
+    height: fit-content;
+    cursor: text;
+}
+
+.form-tag-group input.form-display-tags {
+    width: fit-content;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    vertical-align: middle;
+    font-size: 1.5rem;
+}
+
+.form-tag-group input.form-display-tags:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.form-tag-group .tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E0AFA0;
+    color: #463F3A;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-tag-group .tag:hover {
+    background-color: #b88f82;
+}
+
+.form-tag-group .tag .btn-remove-tag {
+    margin-left: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 2rem;
+}
+
+.popup-form#delete-recipe form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.popup-form#delete-recipe form .form-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
