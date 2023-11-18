@@ -6,7 +6,7 @@ const cookieParser      = require("cookie-parser");
 const path              = require("path");
 const MongoStore        = require("connect-mongo");
 const flash             = require("connect-flash");
-const marked        = require("marked");
+const marked            = require("marked");
 const createDOMPurify   = require('dompurify');
 const { JSDOM }         = require('jsdom');
 
@@ -74,8 +74,8 @@ app.use("/", require("./router"));
 app.use(function(err, req, res, next) {
     if (err) {
         if (err.code == "EBADCSRFTOKEN") {
-            // req.flash('errors', 'Cross-site forgery detected');
-            // req.session.save(() => res.redirect('back')); // with flash
+            req.flash('errors', 'Cross-site forgery detected');
+            req.session.save(() => res.redirect('back')); // with flash
             res.redirect('back');
         } else {
             res.status(400).send(err);

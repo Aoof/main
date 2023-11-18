@@ -12,32 +12,53 @@
         <div class="actions-wrapper">
             <button class="btn btn-add popup-btn form-add" data-popup-id="add-recipe">Add</button>
         </div>
-        <div class="search-wrapper">
-            <input type="text" class="search form-control" placeholder="Search">
+        <div class="search-wrapper filter recipes-filter" data-index="0">
+            <label for="filter">Filter</label>
+            <input type="text" id="filter" class="filter-query search form-control" name="filter" placeholder="Search for Recipes">
         </div>
-        <div class="wrapper">
-            <% recipes.forEach(recipe => { %>
-                <a class="recipe" href="/fae-sparkles/recipe/<%= recipe._id %>">
-                    <div class="title">
-                        <h2><%= recipe.title %></h2>
-                    </div>
-                    <div class="cook-time">
-                        <p><%= recipe.cookTime %></p>
-                    </div>
-                    <div class="tags">
-                        <ul>
-                            <% recipe.tags.forEach(tag => { %>
-                                <li><%= tag %></li>
-                            <% }) %>
-                        </ul>
-                    </div>
-                    <div class="createdDate">
-                        <%= new Date(recipe.createdDate).toLocaleString() %>
-                    </div>
-                </a>
-            <% }) %>
+        <div class="wrapper recipes">
+            <div class="recipe-list paginator filter-container" data-amount="5" data-page="1" data-index="0">
+                <% recipes.forEach(recipe => { %>
+                    <a class="recipe paginatee filtered" href="/fae-sparkles/recipe/<%= recipe._id %>">
+                        <div class="title search-include">
+                            <h2><%= recipe.title %></h2>
+                        </div>
+                        <div class="food-type search-exclude">
+                            <p><%= recipe.foodType %></p>
+                        </div>
+                        <div class="cook-time search-exclude">
+                            <p><%= recipe.cookTime %></p>
+                        </div>
+                        <div class="tags search-include">
+                            <ul>
+                                <% recipe.tags.forEach(tag => { %>
+                                    <li><%= tag %></li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                        <div class="data-hidden search-include">
+                            <div class="ingredients">
+                                <ul>
+                                    <% recipe.ingredients.forEach(ingredient => { %>
+                                        <li><%= ingredient.amount %> <%= ingredient.ingredient %></li>
+                                    <% }) %>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="createdDate search-exclude">
+                            <%= new Date(recipe.createdDate).toLocaleString() %>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+            <div class="pagination" data-index="0" data-page="1" data-amount="5">
+                <a class="pagination-link left" data-page="0"><i class="fas fa-chevron-left"></i></a>
+                <a class="pagination-link right" data-page="0"><i class="fas fa-chevron-right"></i></a>            
+            </div>
         </div>
     </div>
+    Copyright 2023 ©
+The content on this website, including text, images, and logos, is the property of this website and protected by copyright laws. Unauthorized use of any materials on this website may violate copyright laws.
 </body>
 <script src="/js/main-bundled.js"></script>
 </html>

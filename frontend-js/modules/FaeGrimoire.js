@@ -3,7 +3,6 @@ export default class FaeGrimoire {
     constructor() {
         this.faeGrimoire = document.querySelector(".fae-grimoire");
         
-        this.searchBar = document.querySelector(".search");
         this.popupBtns = document.querySelectorAll(".popup-btn");
         this.popupForms = document.querySelectorAll(".popup-form");
 
@@ -14,11 +13,6 @@ export default class FaeGrimoire {
     }
 
     events() {
-        if (this.searchBar)
-        {
-            this.searchBar.addEventListener("keyup", () => this.search());
-        }
-
         if (this.popupBtns)
         {
             this.popupBtns.forEach(btn => {
@@ -41,7 +35,7 @@ export default class FaeGrimoire {
 
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {
-                if (document.querySelector("#add-recipe") || document.querySelector("#edit-recipe")) {
+                if (document.activeElement == document.querySelector("#add-recipe") || document.activeElement == document.querySelector("#edit-recipe")) {
                     if (document.activeElement == document.querySelector("textarea")) return;
                     e.preventDefault();
                 }
@@ -63,10 +57,6 @@ export default class FaeGrimoire {
                 }
             }
         })
-    }
-
-    search() {
-        document.querySelector(".test").innerText = this.searchBar.value;
     }
 
     togglePopup(btn) {

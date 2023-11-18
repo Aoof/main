@@ -113,6 +113,11 @@ body svg {
     border: 1px solid #8A817C;
     background-color: #463F3A;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .container .wrapper .recipe:not(.unique) {
@@ -126,6 +131,8 @@ body svg {
     grid-template-columns: repeat(12, 1fr);
     align-items: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+
+    display: none;
 }
 
 .container .wrapper .recipe:not(.unique):hover {
@@ -159,7 +166,6 @@ body svg {
 .recipe:not(.unique) .cook-time { grid-column: span 3; }
 .recipe:not(.unique) .tags { grid-column: span 8; }
 .recipe:not(.unique) .createdDate { grid-column: span 4; }
-
 
 .recipe.unique .header { grid-column: span 9; }
 .recipe.unique .actions { grid-column: span 3; }
@@ -207,9 +213,13 @@ body svg {
     justify-self: end;
 }
 
+.recipe .data-hidden {
+    display: none;
+}
+
 .recipe .createdDate {
-    align-self: end;
-    justify-self: end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .recipe .tags ul {
@@ -617,6 +627,54 @@ body svg {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.recipes .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.pagination .pagination-link {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #e0afa0;
+    color: #fff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: 0.3s;
+    border: 1px solid #0000000d;
+    margin: 0 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination .pagination-link.active {
+    background-color: #917168;
+    color: white;
+}
+
+.pagination .pagination-link:hover {
+    background-color: #917168;
+    color: white;
+}
+
+.paginatee--show {
+    display: block !important;
+}
+
+.filtered--show {
+    display: block !important;
+}
+
+.paginatee--hide {
+    display: none !important;
+}
+
+.filtered--hide {
+    display: none !important;
 }
 
 @media screen and (max-width: 940px) {

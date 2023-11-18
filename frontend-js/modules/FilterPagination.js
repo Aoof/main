@@ -112,6 +112,7 @@ export default class FilterPagination {
 
             query.addEventListener("keyup", () => {
                 this.handleFilter(query, filterCore);
+                this.loadPagination();
             });
         });
     }
@@ -136,14 +137,16 @@ export default class FilterPagination {
             item.classList.remove("filtered--hide");
             item.classList.add("filtered--show");
 
-            let text = item.innerText.toLowerCase();
+            let text = "";
+
+            item.querySelectorAll(".search-include").forEach(searchInclude => text += searchInclude.textContent.toLowerCase())
+
             if (!text.includes(searchTerm)) {
                 item.classList.remove("filtered--show");
                 item.classList.add("filtered--hide");
             }
         });
 
-        this.loadPagination();
         let paginationCore = this.paginators[filter.index].paginationCore;
         let paginatees = paginationCore.querySelectorAll(".paginatee:not(.filtered--hide)");
         let amount = parseInt(paginationCore.dataset.amount) || 5;
@@ -153,7 +156,7 @@ export default class FilterPagination {
     }
 
     createPagination(containerSelector, totalItems, itemsPerPage, currentPage) {
-        const container = document.querySelector(containerSelector);
+        const container = document.querySelector(containerSelector) || document.querySelector('.pagination'); 
         container.innerHTML = ''; 
     
         if (totalItems === 0) {
