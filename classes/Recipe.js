@@ -98,6 +98,11 @@ Recipe.prototype.deleteRecipe = function () {
 Recipe.prototype.getRecipes = function () {
     return new Promise(async (resolve, reject) => {
         let recipes = await recipeCollection.find().toArray();
+
+        recipes = recipes.sort((a, b) => {
+            return new Date(b.createdDate) - new Date(a.createdDate);
+        });
+
         resolve(recipes);
     });
 }

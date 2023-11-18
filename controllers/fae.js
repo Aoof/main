@@ -37,6 +37,15 @@ module.exports = {
 
         res.render('fae/recipe', {recipe: recipeToDisplay});
     },
+    async apiGetRecipes(req, res, next) {
+        try {
+            let recipe = new Recipe();
+            let recipes = await recipe.getRecipes();
+            res.json(recipes);
+        } catch (err) {
+            res.json([]);
+        }
+    },
     addRecipeScreen(req, res, next) {
         res.render('fae/add-recipe');
     },
