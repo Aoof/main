@@ -165,6 +165,13 @@ export default class FaeGrimoire {
                         this.addTag();
                     }
                 }
+
+                if (e.key == "Backspace" && this.tagGroup.value.trim() == "") {
+                    let tags = document.querySelectorAll(".tag");
+                    if (tags.length > 0) {
+                        tags[tags.length - 1].remove();
+                    }
+                }
             });
         }
 
@@ -227,6 +234,17 @@ export default class FaeGrimoire {
                         tags[tags.length - 1].remove();
                     }
                 }
+            });
+        }
+
+        this.removeIngredientBtns = document.querySelectorAll(".btn-remove-ingredient");
+        if (this.removeIngredientBtns)
+        {
+            this.removeIngredientBtns.forEach(btn => {
+                btn.addEventListener("click", e => {
+                    e.preventDefault();
+                    btn.parentElement.remove();
+                });
             });
         }
     }
