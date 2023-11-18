@@ -229,6 +229,7 @@ body svg {
     padding: 5px 20px;
     margin: 10px 5px;
     border-radius: 9px;
+    cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
 

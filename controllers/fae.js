@@ -102,7 +102,7 @@ module.exports = {
         recipe.updateMode = true;
         recipe.deleteRecipe().then(() => {
             req.flash('success', 'Recipe deleted successfully.');
-            req.session.save(() => res.redirect('back'));
+            req.session.save(() => res.redirect('/fae-sparkles'));
         }).catch((err) => {
             if (typeof(err) == 'string') err = [err];
             err.forEach(error => {
