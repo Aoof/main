@@ -17,15 +17,15 @@
             <div class="cook-time">
                 <p><%= recipe.cookTime %></p>
             </div>
-            <div class="instructions">
-                <p><%= recipe.instructions %></p>
-            </div>
             <div class="ingredients">
                 <ul>
                     <% recipe.ingredients.forEach(ingredient => { %>
                         <li><%= ingredient.amount %> <%= ingredient.ingredient %></li>
                     <% }) %>
                 </ul>
+            </div>
+            <div class="instructions">
+                <p><%- recipe.instructions %></p>
             </div>
             <div class="tags">
                 <ul>

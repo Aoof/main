@@ -34,7 +34,7 @@ module.exports = {
         let recipe = new Recipe();
         let recipes = await recipe.getRecipes();
         let recipeToDisplay = recipes.find(recipe => recipe._id == req.params.id);
-
+        
         res.render('fae/recipe', {recipe: recipeToDisplay});
     },
     addRecipeScreen(req, res, next) {

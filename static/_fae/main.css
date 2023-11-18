@@ -105,10 +105,6 @@ body svg {
     cursor: default;
 }
 
-.header h1:hover {
-    transform: scale(1.5);
-}
-
 .container .wrapper {
     min-height: 100vh;
     border-radius: 20px;
@@ -191,12 +187,11 @@ body svg {
 
 .recipe .instructions {
     margin: 1rem 0;
-
     font-size: 1.2rem;
 }
 
 .recipe .title {
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -229,12 +224,16 @@ body svg {
 .recipe .tags ul li {
     background-color: #E0AFA0;
     color: #463F3A;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 5px 20px;
     margin: 10px 5px;
     border-radius: 9px;
     transition: all 0.2s ease-in-out;
+}
+
+.recipe .tags ul li:hover {
+    background-color: #b88f82;
 }
 
 .recipe.unique .actions {
@@ -456,7 +455,7 @@ body svg {
     border: none;
     background-color: transparent;
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     line-height: 1.5;
