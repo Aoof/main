@@ -1,11 +1,14 @@
-const express       = require("express");
-const cors          = require("morgan");
-const csrf          = require("csurf");
-const session       = require("express-session");
-const cookieParser  = require("cookie-parser");
-const path          = require("path");
-const MongoStore    = require("connect-mongo");
-const flash         = require("connect-flash");
+const express           = require("express");
+const cors              = require("morgan");
+const csrf              = require("csurf");
+const session           = require("express-session");
+const cookieParser      = require("cookie-parser");
+const path              = require("path");
+const MongoStore        = require("connect-mongo");
+const flash             = require("connect-flash");
+const marked        = require("marked");
+const createDOMPurify   = require('dompurify');
+const { JSDOM }         = require('jsdom');
 
 require("dotenv").config();
 
@@ -30,6 +33,17 @@ app.use(async function(req, res, next) {
     res.locals.success  = req.flash("success");
 
     res.locals.user = req.session.user;
+
+    if (req.session.user) {
+        res.locals.markdown = function (content) {
+            let DOMPurify = createDOMPurify(new JSDOM('').window);
+
+            let lines = content.split("\n")
+            let html = lines.map(line => marked.parse(line + "<br>", { gfm: true, breaks: true })).join("");
+            
+            return DOMPurify.sanitize(html);
+        };
+    }
 
     next();
 })
