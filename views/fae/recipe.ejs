@@ -7,12 +7,12 @@
             <div class="header">
                 <a href="/fae-sparkles" class="back-anchor"><i class="fas fa-arrow-left"></i> Back</a>
             </div>
-            <div class="title">
-                <h2><%= recipe.title %></h2>
-            </div>
             <div class="actions">
                 <button class="btn btn-edit popup-btn form-edit" data-popup-id="edit-recipe" data-recipe-id="<%= recipe._id %>" data-recipe-title="<%= recipe.title %>"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-delete popup-btn form-delete" data-popup-id="delete-recipe" data-recipe-id="<%= recipe._id %>" data-recipe-title="<%= recipe.title %>"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="title">
+                <h2><%= recipe.title %></h2>
             </div>
             <div class="cook-time">
                 <p><%= recipe.cookTime %></p>
