@@ -11,6 +11,7 @@ router.post('/revert-cuss',             controller.revertCuss);
 
 // Fae Recipe Book Routes
 // router.get('/register',                     controller.registerScreen);
+router.get('/api/recipes',                  faeController.apiGetRecipes);
 router.get('/fae-sparkles',                 faeController.faeGrimoire);
 router.get('/fae-sparkles/recipe/:id',      faeController.recipe);
 router.get('/fae-sparkles/add-recipe',      controller.mustBeLoggedIn, faeController.addRecipeScreen);
