@@ -275,7 +275,6 @@ body svg {
     font-weight: 600;
     margin: 20px 0;
     transition: all 0.2s ease-in-out;
-    height: -webkit-fill-available;
 }
 
 .btn:hover {
@@ -425,6 +424,10 @@ body svg {
 
 .grid .btn.btn-add-ingredient:hover {
     background-color: #bd9386;
+}
+
+.grid .btn.btn-remove-ingredient {
+    height: -webkit-fill-available;
 }
 
 .ingredients-list {
