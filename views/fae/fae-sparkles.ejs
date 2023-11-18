@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="/_global/alert.css">
-    <link rel="stylesheet" href="/_fae/main.css">
-    <title>Fae's Grimoire</title>
-</head>
-<body>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#E0AFA0" fill-opacity="1" d="M0,192L26.7,181.3C53.3,171,107,149,160,122.7C213.3,96,267,64,320,53.3C373.3,43,427,53,480,58.7C533.3,64,587,64,640,80C693.3,96,747,128,800,165.3C853.3,203,907,245,960,234.7C1013.3,224,1067,160,1120,138.7C1173.3,117,1227,139,1280,149.3C1333.3,160,1387,160,1413,160L1440,160L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></path></svg>
+<%- include("header.ejs") %>
     <div class="container fae-grimoire">
         <%- include("../includes/flash.ejs") %>
 
@@ -28,31 +17,14 @@
         </div>
         <div class="wrapper">
             <% recipes.forEach(recipe => { %>
-                <div class="recipe">
+                <a class="recipe" href="/fae-sparkles/recipe/<%= recipe._id %>">
                     <div class="title">
                         <h2><%= recipe.title %></h2>
-                        <div class="actions">
-                            <button class="btn btn-edit popup-btn form-edit" data-popup-id="edit-recipe" data-recipe-id="<%= recipe._id %>" data-recipe-title="<%= recipe.title %>">Edit</button>
-                            <button class="btn btn-delete popup-btn form-delete" data-popup-id="delete-recipe" data-recipe-id="<%= recipe._id %>" data-recipe-title="<%= recipe.title %>">Delete</button>
-                        </div>
                     </div>
                     <div class="cook-time">
                         <p><%= recipe.cookTime %></p>
                     </div>
-                    <div class="ingredients">
-                        <h3>Ingredients</h3>
-                        <ul>
-                            <% recipe.ingredients.forEach(ingredient => { %>
-                                <li><%= ingredient.amount %> <%= ingredient.ingredient %></li>
-                            <% }) %>
-                        </ul>
-                    </div>
-                    <div class="instructions">
-                        <h3>Instructions</h3>
-                        <p><%= recipe.instructions %></p>
-                    </div>
                     <div class="tags">
-                        <h3>Tags</h3>
                         <ul>
                             <% recipe.tags.forEach(tag => { %>
                                 <li><%= tag %></li>
@@ -62,27 +34,10 @@
                     <div class="createdDate">
                         <%= new Date(recipe.createdDate).toLocaleString() %>
                     </div>
-                </div>
+                </a>
             <% }) %>
         </div>
     </div>
-
-    <div class="popup-form hidden" id="delete-recipe">
-        <button class="hide-popup" data-popup-id="add-recipe">X</button>
-        <form action="/fae-sparkles/delete-recipe" method="post">
-            
-            <h1>Recipe: <span id="recipeTitle"></span></h1>
-            <div class="form-group">
-                <label>Are you sure you want to delete this recipe?</label>
-            </div>
-            <div class="form-group">
-                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                <button class="btn btn-cancel">Cancel</button>
-                <button class="btn btn-delete">Delete</button>
-            </div>
-        </form>
-    </div>
-    
 </body>
 <script src="/js/main-bundled.js"></script>
 </html>

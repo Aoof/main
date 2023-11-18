@@ -42,6 +42,7 @@ export default class FaeGrimoire {
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {
                 if (document.querySelector("#add-recipe") || document.querySelector("#edit-recipe")) {
+                    if (document.activeElement == document.querySelector("textarea")) return;
                     e.preventDefault();
                 }
             }
@@ -50,11 +51,13 @@ export default class FaeGrimoire {
         document.addEventListener("keyup", e => {
             if (e.key == "Enter") {
                 if (document.querySelector("#add-recipe")) {
+                    if (document.activeElement == document.querySelector("textarea")) return;
                     e.preventDefault();
                     this.addUpdateRecipe();
                 }
 
                 if (document.querySelector("#edit-recipe")) {
+                    if (document.activeElement == document.querySelector("textarea")) return;
                     e.preventDefault();
                     this.addUpdateRecipe();
                 }
@@ -153,7 +156,7 @@ export default class FaeGrimoire {
         {
             this.cancelBtn.addEventListener("click", e => {
                 e.preventDefault();
-                window.location.href = "/fae-sparkles";
+                window.location.href = e.target.dataset.href;
             })
         }
 

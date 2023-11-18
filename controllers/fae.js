@@ -30,6 +30,13 @@ module.exports = {
             res.render('fae/login');
         }
     },
+    async recipe(req, res, next) {
+        let recipe = new Recipe();
+        let recipes = await recipe.getRecipes();
+        let recipeToDisplay = recipes.find(recipe => recipe._id == req.params.id);
+
+        res.render('fae/recipe', {recipe: recipeToDisplay});
+    },
     addRecipeScreen(req, res, next) {
         res.render('fae/add-recipe');
     },

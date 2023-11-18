@@ -1,0 +1,62 @@
+
+<%- include("header.ejs") %>
+    
+    <div class="container fae-grimoire">
+        <%- include("../includes/flash.ejs") %>
+        <div class="recipe unique">
+            <div class="header">
+                <a href="/fae-sparkles" class="back-anchor"><i class="fas fa-arrow-left"></i> Back</a>
+            </div>
+            <div class="title">
+                <h2><%= recipe.title %></h2>
+            </div>
+            <div class="actions">
+                <button class="btn btn-edit popup-btn form-edit" data-popup-id="edit-recipe" data-recipe-id="<%= recipe._id %>" data-recipe-title="<%= recipe.title %>"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-delete popup-btn form-delete" data-popup-id="delete-recipe" data-recipe-id="<%= recipe._id %>" data-recipe-title="<%= recipe.title %>"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="cook-time">
+                <p><%= recipe.cookTime %></p>
+            </div>
+            <div class="instructions">
+                <p><%= recipe.instructions %></p>
+            </div>
+            <div class="ingredients">
+                <ul>
+                    <% recipe.ingredients.forEach(ingredient => { %>
+                        <li><%= ingredient.amount %> <%= ingredient.ingredient %></li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div class="tags">
+                <ul>
+                    <% recipe.tags.forEach(tag => { %>
+                        <li><%= tag %></li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div class="createdDate">
+                <%= new Date(recipe.createdDate).toLocaleString() %>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-form hidden" id="delete-recipe">
+        <button class="hide-popup" data-popup-id="add-recipe">X</button>
+        <form action="/fae-sparkles/delete-recipe" method="post">
+            
+            <h1>Recipe: <span id="recipeTitle"></span></h1>
+            <div class="form-group">
+                <label>Are you sure you want to delete this recipe?</label>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                <button class="btn btn-cancel">Cancel</button>
+                <button class="btn btn-delete">Delete</button>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+<script src="/js/main-bundled.js"></script>
+</html>
