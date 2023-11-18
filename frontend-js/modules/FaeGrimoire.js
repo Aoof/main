@@ -35,7 +35,7 @@ export default class FaeGrimoire {
 
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {
-                if (document.activeElement == document.querySelector("#add-recipe") || document.activeElement == document.querySelector("#edit-recipe")) {
+                if (document.querySelector("#add-recipe") || document.querySelector("#edit-recipe")) {
                     if (document.activeElement == document.querySelector("textarea")) return;
                     e.preventDefault();
                 }
@@ -218,6 +218,13 @@ export default class FaeGrimoire {
                     e.preventDefault();
                     if (this.tagGroup.value.trim() != "") {
                         this.addTag();
+                    }
+                }
+
+                if (e.key == "Backspace" && this.tagGroup.value.trim() == "") {
+                    let tags = document.querySelectorAll(".tag");
+                    if (tags.length > 0) {
+                        tags[tags.length - 1].remove();
                     }
                 }
             });
