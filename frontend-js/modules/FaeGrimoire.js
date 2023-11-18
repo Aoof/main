@@ -23,15 +23,8 @@ export default class FaeGrimoire {
             });
         }
 
-        if (document.querySelector("#add-recipe"))
-        {
-            this.setupAddRecipeForm();
-        }
-
-        if (document.querySelector("#edit-recipe"))
-        {
-            this.setupEditRecipeForm();
-        }
+        if (document.querySelector("#add-recipe")) { this.setupAddRecipeForm(); }
+        if (document.querySelector("#edit-recipe")) { this.setupEditRecipeForm(); }
 
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {
