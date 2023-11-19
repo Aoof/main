@@ -116,6 +116,18 @@ export default class FaeGrimoire {
 
         let recipeTitle = popup.querySelector(`#recipeTitle`);
         recipeTitle.innerText = title;
+
+        let cancelBtn = popup.querySelector(".btn-cancel");
+        cancelBtn.addEventListener("click", e => {
+            e.preventDefault();
+            popup.classList.toggle("hidden");
+        });
+
+        let deleteBtn = popup.querySelector(".btn-delete");
+        deleteBtn.addEventListener("click", e => {
+            e.preventDefault();
+            form.submit();
+        });
     }
 
     setupEditRecipeForm() {

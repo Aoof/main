@@ -12,6 +12,7 @@ Recipe.prototype.cleanUp = function () {
     if (typeof (this.data.instructions) != "string") { this.data.instructions = ""; }
     if (typeof (this.data.ingredients) != "object") { this.data.ingredients = []; }
     if (typeof (this.data.cookTime) != "string") { this.data.cookTime = ""; }
+    if (typeof (this.data.foodType) != "string") { this.data.foodType = ""; }
     if (typeof (this.data.tags) != "object") { this.data.tags = []; }
 
     let _id = this.data._id;
@@ -20,6 +21,7 @@ Recipe.prototype.cleanUp = function () {
         title: this.data.title.trim(),
         instructions: this.data.instructions.trim(),
         ingredients: this.data.ingredients,
+        foodType: this.data.foodType,
         cookTime: this.data.cookTime,
         tags: this.data.tags,
         createdDate: this.updateMode ? this.data.createdDate : new Date()
@@ -71,6 +73,7 @@ Recipe.prototype.editRecipe = function () {
                     instructions: this.data.instructions,
                     ingredients: this.data.ingredients,
                     cookTime: this.data.cookTime,
+                    foodType: this.data.foodType,
                     tags: this.data.tags,
                     createdDate: this.data.createdDate
                 } })

@@ -54,8 +54,6 @@ module.exports = {
         let recipes = await recipe.getRecipes();
         let recipeToEdit = recipes.find(recipe => recipe._id == req.params.id);
 
-        console.log(recipeToEdit)
-
         // Filter and sorting
         let allTitles = [];
         let allIngredients = [];
