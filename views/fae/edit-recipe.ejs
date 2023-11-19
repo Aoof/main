@@ -16,6 +16,17 @@
                 </select>
             </div>
             <div class="form-group">
+                <label>Food Type</label>
+                <select name="foodType" id="foodType">
+                    <option value="Appetizer" <%= recipe.foodType === "Appetizer" ? "selected" : "" %>>Appetizer</option>
+                    <option value="Main Course" <%= recipe.foodType === "Main Course" ? "selected" : "" %>>Main Course</option>
+                    <option value="Side Dish" <%= recipe.foodType === "Side Dish" ? "selected" : "" %>>Side Dish</option>
+                    <option value="Dessert" <%= recipe.foodType === "Dessert" ? "selected" : "" %>>Dessert</option>
+                    <option value="Snack" <%= recipe.foodType === "Snack" ? "selected" : "" %>>Snack</option>
+                    <option value="Drink" <%= recipe.foodType === "Drink" ? "selected" : "" %>>Drink</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Ingredients</label>
                 <div class="ingredients-list">
                     <div class="ingredient grid default">
@@ -44,9 +55,9 @@
                 <label>Tags</label>
                 <div class="form-tag-group form-control">
                     <% recipe.tags.forEach(tag => { %>
-                        <div class="tag">
+                        <div class="tag" onclick="this.remove()">
                             <span><%= tag %></span>
-                            <button class="btn-remove-tag">-</button>
+                            <button class="btn-remove-tag" onclick="this.parentElement.remove();">-</button>
                         </div>
                     <% }) %>
                     <input type="text" class="form-display-tags">

@@ -171,17 +171,13 @@ export default class FilterPagination {
         leftArrow.dataset.page = Math.max(1, currentPage - 1);
         leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
         container.appendChild(leftArrow);
-    
-        for (let i = 0; i < totalPages; i++) {
-            const pageLink = document.createElement('a');
-            pageLink.className = 'pagination-link ind';
-            pageLink.dataset.page = i + 1;
-            pageLink.textContent = i + 1;
-            if (currentPage === i + 1) {
-                pageLink.classList.add('active');
-            }
-            container.appendChild(pageLink);
-        }
+
+        const pageLink = document.createElement('a');
+        pageLink.className = 'pagination-link ind';
+        pageLink.dataset.page = currentPage;
+        pageLink.textContent = currentPage;
+        pageLink.classList.add('active');
+        container.appendChild(pageLink);
     
         const rightArrow = document.createElement('a');
         rightArrow.className = 'pagination-link right';
