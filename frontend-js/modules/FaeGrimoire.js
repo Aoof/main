@@ -158,7 +158,7 @@ export default class FaeGrimoire {
         this.tagGroup = document.querySelector(".form-display-tags");
         if (this.tagGroup)
         {
-            this.tagGroup.parentElement.addEventListener("click", e => {
+            this.tagGroup.parentElement.parentElement.addEventListener("click", e => {
                 e.preventDefault();
                 this.tagGroup.focus();
             });
@@ -220,16 +220,25 @@ export default class FaeGrimoire {
         this.tagGroup = document.querySelector(".form-display-tags");
         if (this.tagGroup)
         {
-            this.tagGroup.parentElement.addEventListener("click", e => {
+            this.tagGroup.parentElement.parentElement.addEventListener("click", e => {
                 e.preventDefault();
                 this.tagGroup.focus();
             });
 
             this.tagGroup.addEventListener("keydown", e => {
-                if (e.key == " " || e.key == "Enter") {
+                if (e.key == " ") {
                     e.preventDefault();
                     if (this.tagGroup.value.trim() != "") {
                         this.addTag();
+                    }
+                }
+
+                if (!document.querySelector('.results-container.active')) {
+                    if (e.key == "Enter") {
+                        e.preventDefault();
+                        if (this.tagGroup.value.trim() != "") {
+                            this.addTag();
+                        }
                     }
                 }
 
@@ -255,6 +264,14 @@ export default class FaeGrimoire {
     }
 
     addTag() {
+        this.tags = document.querySelectorAll(".tag");
+        this.tags = Array.from(this.tags).map(tag => tag.querySelector("span").innerText);
+
+        if (this.tags.includes(this.tagGroup.value)) {
+            this.tagGroup.value = "";
+            return;
+        }
+
         let tag = document.createElement("div");
         tag.classList.add("tag");
         tag.innerHTML = `<span>${this.tagGroup.value}</span><button class="btn-remove-tag">-</button>`;
@@ -263,7 +280,7 @@ export default class FaeGrimoire {
             e.preventDefault();
             tag.remove();
         });
-        this.tagGroup.parentElement.insertBefore(tag, this.tagGroup);
+        this.tagGroup.parentElement.parentElement.insertBefore(tag, this.tagGroup.parentElement);
     }
 
     addIngredient() {
@@ -297,6 +314,7 @@ export default class FaeGrimoire {
 
         let data = {
             title: document.querySelector("#title").value,
+            foodType: document.querySelector("#foodType").value,
             ingredients: [],
             tags: [],
             instructions: document.querySelector("#instructions").value,
@@ -362,8 +380,8 @@ export default class FaeGrimoire {
                 this.showErrorMessage(response);
             }
         }).catch(e => {
-            console.error(e);
-            this.showErrorMessage("Please try again later.");
+            console.log(e);
+            this.showErrorMessage(e.response.data);
         });
     }
 

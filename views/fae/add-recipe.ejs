@@ -47,7 +47,15 @@
                 </div>
                 <div class="grid ingredient-btns">
                     <input type="text" class="form-control col-3 ingredient-amount main">
-                    <input type="text" class="form-control col-9 ingredient-name main">
+                    <div class="auto-complete-group col-9">
+                        <input 
+                            type="text" 
+                            class="form-control ingredient-name main auto-complete"
+                            data-auto-complete-data="<%= JSON.stringify({ resultsContainer: 'results-container-1', data: allIngredients }) %>">
+                        <div id="results-container-1" class="results-container no-select">
+                            <ul class="results-list"></ul>
+                        </div>
+                    </div>
                     <button class="btn btn-add-ingredient">+</button>
                 </div>
             </div>
@@ -58,7 +66,15 @@
             <div class="form-group">
                 <label>Tags</label>
                 <div class="form-tag-group form-control">
-                    <input type="text" class="form-display-tags">
+                    <div class="auto-complete-group">
+                        <input 
+                            type="text" 
+                            class="form-display-tags auto-complete tags"
+                            data-auto-complete-data="<%= JSON.stringify({ resultsContainer: 'results-container-2', data: allTags }) %>">
+                        <div id="results-container-2" class="results-container no-select">
+                            <ul class="results-list"></ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             

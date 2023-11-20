@@ -74,10 +74,12 @@ app.use("/", require("./router"));
 app.use(function(err, req, res, next) {
     if (err) {
         if (err.code == "EBADCSRFTOKEN") {
+            console.log(err);
             req.flash('errors', 'Cross-site forgery detected');
             req.session.save(() => res.redirect('back')); // with flash
             res.redirect('back');
         } else {
+            console.log(err)
             res.status(400).send(err);
         }
     }

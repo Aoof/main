@@ -38,6 +38,10 @@ Recipe.prototype.validate = function () {
         if (this.data.ingredients == []) { this.errors.push("You must provide ingredients."); }
         if (this.data.instructions == "") { this.errors.push("You must provide instructions."); }
         if (this.data.cookTime == "") { this.errors.push("You must provide a cook time."); }
+        if (this.data.foodType == "") { this.errors.push("You must provide a food type."); }
+
+        let recipeWithTitle = await recipeCollection.findOne({ title: this.data.title });
+        if (recipeWithTitle && !this.updateMode) { this.errors.push("That title is already taken."); }
 
         resolve();
     });
@@ -107,6 +111,35 @@ Recipe.prototype.getRecipes = function () {
         });
 
         resolve(recipes);
+    });
+}
+
+Recipe.prototype.getIngredients = function () {
+    return new Promise(async (resolve, reject) => {
+        let ingredients = await recipeCollection.distinct("ingredients");
+        ingredients = ingredients.map(ingredient => ingredient.ingredient);
+        resolve(ingredients);
+    });
+}
+
+Recipe.prototype.getTags = function () {
+    return new Promise(async (resolve, reject) => {
+        let tags = await recipeCollection.distinct("tags");
+        resolve(tags);
+    });
+}
+
+Recipe.prototype.getFoodTypes = function () {
+    return new Promise(async (resolve, reject) => {
+        let foodTypes = await recipeCollection.distinct("foodType");
+        resolve(foodTypes);
+    });
+}
+
+Recipe.prototype.getCookTimes = function () {
+    return new Promise(async (resolve, reject) => {
+        let cookTimes = await recipeCollection.distinct("cookTime");
+        resolve(cookTimes);
     });
 }
 

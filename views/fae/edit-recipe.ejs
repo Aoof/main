@@ -33,17 +33,37 @@
                         <div class="amount col-3">Amount</div>
                         <div class="name col-9">Name</div>
                     </div>
+                    <% let i = 1; %>
                     <% recipe.ingredients.forEach(ingredient => { %>
                         <div class="ingredient grid">
                             <input type="text" class="form-control col-3 ingredient-amount" value="<%= ingredient.amount %>">
-                            <input type="text" class="form-control col-8 ingredient-name" value="<%= ingredient.ingredient %>">
+                            <div class="auto-complete-group col-8">
+                                <input 
+                                    type="text" 
+                                    class="form-control ingredient-name auto-complete" 
+                                    value="<%= ingredient.ingredient %>"
+                                    data-auto-complete-data="<%= JSON.stringify({ resultsContainer: "results-container-" + i, data: allIngredients }) %>">
+                                <div id="results-container-<%= i %>" class="results-container no-select">
+                                    <ul class="results-list"></ul>
+                                </div>
+                                <% i++; %>
+                            </div>
                             <button class="btn btn-remove-ingredient col-1">-</button>
                         </div>
                     <% }) %>
                 </div>
                 <div class="grid ingredient-btns">
                     <input type="text" class="form-control col-3 ingredient-amount main">
-                    <input type="text" class="form-control col-9 ingredient-name main">
+                    <div class="auto-complete-group col-9">
+                        <input 
+                            type="text" 
+                            class="form-control ingredient-name main auto-complete"
+                            data-auto-complete-data="<%= JSON.stringify({ resultsContainer: "results-container-"+i, data: allIngredients }) %>">
+                        <div id="results-container-<%= i %>" class="results-container no-select">
+                            <ul class="results-list"></ul>
+                        </div>
+                        <% i++; %>
+                    </div>    
                     <button class="btn btn-add-ingredient">+</button>
                 </div>
             </div>
@@ -60,7 +80,15 @@
                             <button class="btn-remove-tag" onclick="this.parentElement.remove();">-</button>
                         </div>
                     <% }) %>
-                    <input type="text" class="form-display-tags">
+                    <div class="auto-complete-group">
+                        <input 
+                            type="text" 
+                            class="form-display-tags auto-complete tags"
+                            data-auto-complete-data="<%= JSON.stringify({ resultsContainer: 'results-container-' + i, data: allTags }) %>">
+                        <div id="results-container-<%= i %>" class="results-container no-select">
+                            <ul class="results-list"></ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             

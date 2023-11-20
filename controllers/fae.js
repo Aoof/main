@@ -4,25 +4,13 @@ module.exports = {
     async faeGrimoire(req, res, next) {
         if (req.session.user) {
             let recipe = new Recipe();
-            recipe.getRecipes().then(recipes => {
-                // Filter and sorting
-                let allTitles = [];
-                let allIngredients = [];
-                let allInstructions = [];
-                let allTags = [];
+            recipe.getRecipes().then(async recipes => {
+                let allIngredients = await recipe.getIngredients();
+                let allTags = await recipe.getTags();
+                let allFoodTypes = await recipe.getFoodTypes();
+                let allCookTimes = await recipe.getCookTimes();
 
-                recipes.forEach(recipe => {
-                    allTitles.push(recipe.title);
-                    recipe.ingredients.forEach(ingredient => {
-                        allIngredients.push(ingredient);
-                    });
-                    allInstructions.push(recipe.instructions);
-                    recipe.tags.forEach(tag => {
-                        allTags.push(tag);
-                    });
-                });
-
-                res.render('fae/fae-sparkles', {recipes: recipes, allTitles, allIngredients, allInstructions, allTags});
+                res.render('fae/fae-sparkles', {recipes, allIngredients, allFoodTypes, allCookTimes, allTags});
             }).catch(err => {
                 res.render('fae/fae-sparkles', {recipes: []});
             });
@@ -46,32 +34,27 @@ module.exports = {
             res.json([]);
         }
     },
-    addRecipeScreen(req, res, next) {
-        res.render('fae/add-recipe');
+    async addRecipeScreen(req, res, next) {
+        let recipe = new Recipe();
+
+        let allIngredients = await recipe.getIngredients();
+        let allTags = await recipe.getTags();
+        let allFoodTypes = await recipe.getFoodTypes();
+        let allCookTimes = await recipe.getCookTimes();
+
+        res.render('fae/add-recipe', {allIngredients, allFoodTypes, allCookTimes, allTags});
     },
     async editRecipeScreen(req, res, next) {
         let recipe = new Recipe();
         let recipes = await recipe.getRecipes();
         let recipeToEdit = recipes.find(recipe => recipe._id == req.params.id);
 
-        // Filter and sorting
-        let allTitles = [];
-        let allIngredients = [];
-        let allInstructions = [];
-        let allTags = [];
+        let allIngredients = await recipe.getIngredients();
+        let allTags = await recipe.getTags();
+        let allFoodTypes = await recipe.getFoodTypes();
+        let allCookTimes = await recipe.getCookTimes();
 
-        recipes.forEach(recipe => {
-            allTitles.push(recipe.title);
-            recipe.ingredients.forEach(ingredient => {
-                allIngredients.push(ingredient);
-            });
-            allInstructions.push(recipe.instructions);
-            recipe.tags.forEach(tag => {
-                allTags.push(tag);
-            });
-        });
-
-        res.render('fae/edit-recipe', {recipe: recipeToEdit, allTitles, allIngredients, allInstructions, allTags});
+        res.render('fae/edit-recipe', {recipe: recipeToEdit, allIngredients, allFoodTypes, allCookTimes, allTags});
     },
     addRecipe(req, res, next) {  
         let recipe = new Recipe(req.body);
@@ -95,7 +78,6 @@ module.exports = {
             req.flash('success', 'Recipe updated successfully.');
             req.session.save(() => res.redirect('back'));
         }).catch((err) => {
-            console.log(err)
             if (typeof(err) == 'string') err = [err];
             err.forEach(error => {
                 req.flash('errors', error);

@@ -26,6 +26,16 @@ a {
     text-decoration: none;
 }
 
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
 .container {
     max-width: 960px;
     margin: 50px auto;
@@ -327,7 +337,7 @@ body svg {
     cursor: pointer;
     font-size: 1.2rem;
     background-color: #BCB8B1;
-    color: #000;
+    color: #463F3A;
     font-weight: 600;
     margin: 20px 0;
     transition: all 0.2s ease-in-out;
@@ -441,6 +451,7 @@ body svg {
     text-align: center;
     grid-column: span 12;
     border: none;
+    height: 100%;
 }
 
 .grid .btn.btn-add-ingredient:hover {
@@ -448,7 +459,7 @@ body svg {
 }
 
 .grid .btn.btn-remove-ingredient {
-    height: -webkit-fill-available;
+    height: 100%;
 }
 
 .ingredients-list {
@@ -573,6 +584,7 @@ body svg {
     flex-wrap: wrap;
     height: fit-content;
     cursor: text;
+    position: relative;
 }
 
 .form-tag-group input.form-display-tags {
@@ -680,6 +692,66 @@ body svg {
 
 .filtered--hide {
     display: none !important;
+}
+
+.auto-complete-group {
+    position: relative;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    color: #fff;
+    background-color: #8a817c58;
+    background-clip: padding-box;
+    border: 1px solid #87827b;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.results-container.active {
+    display: flex;
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.results-list li {
+    padding: 10px 20px;
+    background-color: #463F3A;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.results-list li.active {
+    background-color: #87827b;
+}
+
+.results-list li:hover {
+    background-color: #87827b;
+}
+
+.results-list:first-child {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.results-list:last-child {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 @media screen and (max-width: 940px) {
