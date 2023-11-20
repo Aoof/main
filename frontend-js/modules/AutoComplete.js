@@ -26,6 +26,7 @@ export default class AutoComplete {
             });
 
             field.addEventListener('blur', () => {
+                if (document.querySelector('.results-container.active:hover')) return;
                 let data = JSON.parse(field.dataset.autoCompleteData);
                 let resultsContainer = document.querySelector(`#${data.resultsContainer}`);
                 resultsContainer.classList.remove('active');

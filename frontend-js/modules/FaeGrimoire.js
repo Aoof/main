@@ -284,6 +284,7 @@ export default class FaeGrimoire {
     }
 
     addIngredient() {
+
         this.ingredientsList = document.querySelector(".ingredients-list");
         let ingredient = document.createElement("div");
         ingredient.classList.add("ingredient");
