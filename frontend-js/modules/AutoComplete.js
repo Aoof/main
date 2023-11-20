@@ -67,8 +67,7 @@ export default class AutoComplete {
         results.forEach(result => {
             if (isTags) {
                 let currentTags = elem.parentElement.parentElement.querySelectorAll('.tag');
-                currentTags = Array.from(currentTags).map(tag => tag.textContent).toString();
-                
+                currentTags = Array.from(currentTags).map(tag => tag.innerText.slice(0, -2));
                 if (currentTags.includes(result)) return;
             }
             let li = document.createElement('li');
