@@ -4,16 +4,19 @@
 
         <div class="header">
             <h1>Fae's Grimoire</h1>
+        </div>
+        <div class="actions-wrapper">
+            <button class="btn btn-add popup-btn form-add" data-popup-id="add-recipe">Add</button>
             <form action="/logout" method="post">
                 <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                 <input type="submit" value="Logout" class="btn btn-submit">
             </form>
         </div>
-        <div class="actions-wrapper">
-            <button class="btn btn-add popup-btn form-add" data-popup-id="add-recipe">Add</button>
-        </div>
         <div class="search-wrapper filter recipes-filter" data-index="0">
             <input type="text" id="filter" class="filter-query search form-control" name="filter" placeholder="Search for Recipes">
+            <a class="btn btn-submit show-filters-btn"><i class="fas fa-filter"></i></a>
+            <div class="filters-wrapper">
+            </div>
         </div>
         <div class="wrapper recipes">
             <div class="recipe-list paginator filter-container" data-amount="4" data-page="1" data-index="0">
