@@ -31,6 +31,7 @@ export default class AutoComplete {
             });
 
             field.addEventListener('focus', () => {
+                if (field.value.length === 0 && field.classList.contains('filter-query')) return;
                 let data = JSON.parse(field.dataset.autoCompleteData);
                 let resultsContainer = document.querySelector(`#${data.resultsContainer}`);
                 resultsContainer.classList.add('active');
