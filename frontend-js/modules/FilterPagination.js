@@ -11,6 +11,10 @@ export default class FilterPagination {
     events() {
         this.loadPagination();
         this.loadFilter();
+
+        document.querySelector(".search-wrapper.filter").addEventListener("click", (e) => {
+            document.querySelector(".filter-query").focus();
+        });
     }
 
     loadPagination() {
@@ -111,9 +115,12 @@ export default class FilterPagination {
             this.setupFilter(filtered, filterCore, filterContainer);
 
             query.addEventListener("keyup", () => {
-                this.handleFilter(query, filterCore);
+                let tags = Array.from(filterCore.querySelectorAll(".filter-option-tag")).map(tag => tag.textContent.toLowerCase());
+                this.handleFilter(filterCore, query.value.toLowerCase(), tags);
                 this.loadPagination();
             });
+
+            query.dispatchEvent(new Event("keyup"));
         });
     }
 
@@ -129,9 +136,8 @@ export default class FilterPagination {
         });
     }
 
-    handleFilter(query, filterCore) {
+    handleFilter(filterCore, searchTerm, extraTerms = []) {
         let filter = this.filters[filterCore.dataset.index];
-        let searchTerm = query.value.toLowerCase();
 
         filter.filtered.forEach(item => {
             item.classList.remove("filtered--hide");
@@ -141,7 +147,7 @@ export default class FilterPagination {
 
             item.querySelectorAll(".search-include").forEach(searchInclude => text += searchInclude.textContent.toLowerCase())
 
-            if (!text.includes(searchTerm)) {
+            if (!text.includes(searchTerm) || !extraTerms.every(term => text.includes(term))) {
                 item.classList.remove("filtered--show");
                 item.classList.add("filtered--hide");
             }

@@ -1,4 +1,4 @@
-<%- include("header.ejs") %>
+<%- include("header") %>
     <div class="container fae-grimoire">
         <%- include("../includes/flash.ejs") %>
 
@@ -13,9 +13,42 @@
             </form>
         </div>
         <div class="search-wrapper filter recipes-filter" data-index="0">
-            <input type="text" id="filter" class="filter-query search form-control" name="filter" placeholder="Search for Recipes">
+            <div class="filter-query-wrapper">
+                <div class="auto-complete-group">
+                    <input 
+                        type="text" 
+                        id="filter" 
+                        name="filter" 
+                        class="filter-query search auto-complete" 
+                        data-auto-complete-data="<%= JSON.stringify({ resultsContainer: 'results-container-0', data: allTags.concat(allIngredients) }) %>"
+                        placeholder="Search for Recipes">
+                    <div id="results-container-0" class="results-container no-select">
+                        <ul class="results-list"></ul>
+                    </div>
+                </div>
+            </div>
             <a class="btn btn-submit show-filters-btn"><i class="fas fa-filter"></i></a>
-            <div class="filters-wrapper">
+            <div class="filters-wrapper no-select">
+
+                <div class="filter-option-group">
+                    <h1 class="group-title">Food Type</h1>
+                    <% allFoodTypes.forEach(foodType => { %>
+                        <div class="filter-option">
+                            <input type="checkbox" class="filter-checkbox" name="foodType" value="<%= foodType %>">
+                            <label for="foodType"><%= foodType %></label>
+                        </div>
+                    <% }) %>
+                </div>
+
+                <div class="filter-option-group">
+                    <h1 class="group-title">Cook Times</h1>
+                    <% allCookTimes.forEach(cookTime => { %>
+                        <div class="filter-option">
+                            <input type="checkbox" class="filter-checkbox" name="cookTime" value="<%= cookTime %>">
+                            <label for="cookTime"><%= cookTime %></label>
+                        </div>
+                    <% }) %>
+                </div>
             </div>
         </div>
         <div class="wrapper recipes">

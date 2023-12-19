@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&display=swap');
 
 * {
     margin: 0;
@@ -8,39 +7,30 @@
     box-sizing: border-box;
 }
 
-html, body {
+html {
     height: 100%;
     height: -webkit-fill-available;
     overflow-x: hidden;
+
+    body {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #fff;
+        background-color: #463F3A;
+    }
+
+    a { color: #fff; text-decoration: none; }
+
+    .no-select { user-select: none; }
+    
+    .container {
+        max-width: 960px;
+        margin: 50px auto;
+        padding: 20px 15px;
+    }
+
 }
 
-body {
-    font-size: 16px;
-    line-height: 1.5;
-    color: #fff;
-    background-color: #463F3A;
-}
-
-a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.no-select {
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
-}
-
-.container {
-    max-width: 960px;
-    margin: 50px auto;
-    padding: 20px 15px;
-}
 
 input::-webkit-input-placeholder{
     color: #fff;
@@ -53,6 +43,7 @@ input:-moz-placeholder{
 body svg {
     position: absolute;
     z-index: -1;
+    top: 0;
 }
 
 .form-control {
@@ -124,17 +115,6 @@ body svg {
 .container .wrapper .recipe:not(.unique):hover {
     background-color: #8a817ca6;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
-}
-
-.search-wrapper {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    align-items: center;
-    gap: 10px;
-}
-
-.search-wrapper .filter-query {
-    grid-column: span 11;
 }
 
 .recipe.unique {
@@ -381,54 +361,12 @@ body svg {
     grid-template-columns: repeat(12, 1fr);
     align-items: center;
     gap: 10px;
-}
 
-.grid .col-1 {
-    grid-column: span 1;
-}
-
-.grid .col-2 {
-    grid-column: span 2;
-}
-
-.grid .col-3 {
-    grid-column: span 3;
-}
-
-.grid .col-4 {
-    grid-column: span 4;
-}
-
-.grid .col-5 {
-    grid-column: span 5;
-}
-
-.grid .col-6 {
-    grid-column: span 6;
-}
-
-.grid .col-7 {
-    grid-column: span 7;
-}
-
-.grid .col-8 {
-    grid-column: span 8;
-}
-
-.grid .col-9 {
-    grid-column: span 9;
-}
-
-.grid .col-10 {
-    grid-column: span 10;
-}
-
-.grid .col-11 {
-    grid-column: span 11;
-}
-
-.grid .col-12 {
-    grid-column: span 12;
+    @for $i from 1 through 12 {
+        .col-#{$i} {
+            grid-column: span #{$i};
+        }
+    }
 }
 
 .grid .btn {
@@ -745,6 +683,137 @@ body svg {
 .results-list:last-child {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+}
+
+@keyframes expandHeight {
+    from {
+        height: 0;
+    }
+    to {
+        height: 100%;
+    }
+}
+
+.search-wrapper {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    gap: 10px;
+
+    .filter-query-wrapper {
+        grid-column: span 11;
+        
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 0.5rem 1.5rem;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #fff;
+        background-color: #8a817c58;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        align-items: center;
+
+        cursor: text;
+
+        .filter-option-tag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #E0AFA0;
+            color: #463F3A;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            margin: 0 10px 0 0;
+
+            width: max-content;
+        }
+
+        .auto-complete-group {
+
+            input {
+                background: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                vertical-align: middle;
+                font-size: 1.5rem;
+    
+                color: white;
+    
+                &:focus {
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+        }
+
+    }
+
+    .filters-wrapper {
+        display: none;
+        justify-content: space-between;
+        
+        background-color: #E0AFA0;
+        color: #000000;
+    
+        border-radius: 10px;
+    
+        grid-column: span 12;
+    
+        padding: 20px;
+        
+        &.active {
+            display: grid;
+        }
+    
+        grid-template-columns: repeat(12, 1fr);
+        gap: 10px;
+    
+        .filter-option-group {
+            grid-column: span 6;
+            margin: 0 0 10px 0;
+    
+            @media screen and (max-width: 940px) {
+                grid-column: span 12;
+            }
+    
+            .group-title {
+                font-size: 1.4rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+    
+            .filter-option {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 0.5rem;
+    
+                label {
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                }
+    
+                input[type="checkbox"] {
+                    width: 20px;
+                    height: 20px;
+                    
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 940px) {

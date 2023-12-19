@@ -10,15 +10,26 @@ module.exports = {
     mode: "development",
     devtool: 'inline-source-map',
     module: {
-        rules: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env']
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
                 }
+            },
+            {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                use: [
+                    {loader: 'style-loader'},
+                    {loader: 'css-loader', options: {url: false}},
+                    {loader: 'sass-loader'}
+                ]
             }
-        }]
+        ]
     }
 }

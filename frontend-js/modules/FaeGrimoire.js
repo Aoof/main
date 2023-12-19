@@ -26,6 +26,11 @@ export default class FaeGrimoire {
         if (document.querySelector("#add-recipe")) { this.setupAddRecipeForm(); }
         if (document.querySelector("#edit-recipe")) { this.setupEditRecipeForm(); }
 
+        document.querySelector(".show-filters-btn").addEventListener("click", e => {
+            e.preventDefault();
+            document.querySelector(".filters-wrapper").classList.toggle("active");
+        });
+
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {
                 if (document.querySelector("#add-recipe") || document.querySelector("#edit-recipe")) {

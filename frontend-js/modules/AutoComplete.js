@@ -9,15 +9,26 @@ export default class AutoComplete {
         forms.forEach(form => {
             form.addEventListener('keydown', e => {
                 if (form.querySelector('.results-container.active')) {
-                    if (e.key === 'Enter' || e.key === 'Tab' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                        e.preventDefault();
-                    }
+                    if (e.key === 'Enter' || e.key === 'Tab' || e.key === 'ArrowUp' || e.key === 'ArrowDown') 
+                    { e.preventDefault() }
                 }
             });
         });
 
         this.autoCompleteFields.forEach(field => {
-            field.addEventListener('keyup', e => this.autoComplete(e, field.classList.contains('tags')));
+            field.addEventListener('keyup', e => {
+                this.autoComplete(e, field.classList.contains('tags'), field.classList.contains('filter-query'))
+
+                if (document.querySelector('.filter-option-tag')) { 
+                    if (e.key === 'Backspace' && field.value.length === 0) {
+                        let filterOptionTag = document.querySelectorAll('.filter-option-tag');
+                        filterOptionTag = filterOptionTag[filterOptionTag.length - 1];
+                        filterOptionTag.remove();
+                        let filterQuery = document.querySelector('.filter-query');
+                        filterQuery.focus();
+                    }
+                }
+            });
 
             field.addEventListener('focus', () => {
                 let data = JSON.parse(field.dataset.autoCompleteData);
@@ -34,7 +45,21 @@ export default class AutoComplete {
         });
     }
 
-    autoComplete(e, isTags) {
+    filterAutoCompleteData(elem) {
+        let filterQueryWrapper = document.querySelector('.filter-query-wrapper');
+        let filterOptionTag = document.createElement('div');
+        filterOptionTag.classList.add('filter-option-tag');
+        filterOptionTag.textContent = elem.value;
+        filterOptionTag.addEventListener('click', () => {
+            filterOptionTag.remove();
+            elem.focus();
+        });
+        filterQueryWrapper.insertBefore(filterOptionTag, elem.parentElement);
+        elem.value = '';
+        elem.dispatchEvent(new KeyboardEvent('keyup'));
+    }
+
+    autoComplete(e, isTags, isFilter) {
         let elem = e.target;
         let data = elem.dataset.autoCompleteData;
         
@@ -70,10 +95,16 @@ export default class AutoComplete {
                 currentTags = Array.from(currentTags).map(tag => tag.innerText.slice(0, -2));
                 if (currentTags.includes(result)) return;
             }
+            if (isFilter) {
+                let currentFilters = document.querySelectorAll('.filter-option-tag');
+                currentFilters = Array.from(currentFilters).map(filter => filter.innerText);
+                if (currentFilters.includes(result)) return;
+            }
             let li = document.createElement('li');
             li.textContent = result;
             li.addEventListener('click', () => {
                 elem.value = result;
+                if (isFilter) { this.filterAutoCompleteData(elem) }
                 resultsContainer.classList.remove('active');
                 if (isTags) { elem.dispatchEvent(new KeyboardEvent('keydown', {'key': ' '})); }
             });
@@ -81,7 +112,7 @@ export default class AutoComplete {
         });
 
         if (results.length === 0) {
-            if (isTags) { 
+            if (isTags || isFilter) { 
                 resultsContainer.classList.remove('active'); 
                 return;
             }
@@ -95,6 +126,7 @@ export default class AutoComplete {
             e.preventDefault();
             if (results.length > 0) {
                 elem.value = results[0];
+                if (isFilter) { this.filterAutoCompleteData(elem) }
                 resultsContainer.classList.remove('active');
                 if (isTags) { elem.dispatchEvent(new KeyboardEvent('keydown', {'key': ' '})); }
             }
@@ -139,6 +171,7 @@ export default class AutoComplete {
             let active = resultsList.querySelector('.active');
             if (active) {
                 elem.value = active.textContent;
+                if (isFilter) { this.filterAutoCompleteData(elem) }
                 resultsContainer.classList.remove('active');
                 if (isTags) { elem.dispatchEvent(new KeyboardEvent('keydown', {'key': ' '})); }
             }
