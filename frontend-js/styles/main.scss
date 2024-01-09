@@ -144,7 +144,7 @@ body svg {
 .recipe:not(.unique) .tags { grid-column: span 8; }
 .recipe:not(.unique) .createdDate { grid-column: span 4; }
 
-.recipe.unique .header { grid-column: span 9; }
+.recipe.unique .header { grid-column: span 12; }
 .recipe.unique .actions { grid-column: span 3; }
 .recipe.unique .title { grid-column: span 12; }
 .recipe.unique .ingredients { grid-column: span 12; }
@@ -157,8 +157,7 @@ body svg {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    align-self: start;
-    justify-self: start;
+    margin: 0 10px;
 }
 
 .recipe .ingredients {

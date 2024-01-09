@@ -49,7 +49,12 @@ module.exports = {
             next();
         } else {
             req.flash("errors", "Must be logged in to use that feature.");
-            req.session.save(() => res.redirect("back"));
+            // redirect to login screen if url had fae-sparkles in it
+            if (req.url.includes("fae-sparkles")) {
+                req.session.save(() => res.redirect("/fae-sparkles"));
+            } else {
+                req.session.save(() => res.redirect("/"));
+            }
         }
     },
     logout(req, res, next) {
