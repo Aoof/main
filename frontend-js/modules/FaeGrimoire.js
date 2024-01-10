@@ -25,11 +25,38 @@ export default class FaeGrimoire {
 
         if (document.querySelector("#add-recipe")) { this.setupAddRecipeForm(); }
         if (document.querySelector("#edit-recipe")) { this.setupEditRecipeForm(); }
+        
+        if (document.querySelector(".tag-link")) {
+            document.querySelectorAll(".tag-link").forEach(tag => {
+                tag.addEventListener("click", e => {
+                    e.preventDefault();
+                    let tag = e.target.innerText;
+                    
+                    let url = new URL(window.location.pathname == "/fae-sparkles" ? window.location.href : window.location.origin + '/fae-sparkles');
+                    let params = new URLSearchParams(url.search);
+                    let tags = params.get("tags");
+                    if (tags == null) {
+                        tags = [];
+                    } else {
+                        tags = tags.split(",");
+                    }
+                    if (!tags.includes(tag)) {
+                        tags.push(tag);
+                    }
+                    params.set("tags", tags.join(","));
+                    url.search = params.toString();
+                    
+                    window.location.href = url;
+                });
+            });
+        }
 
-        document.querySelector(".show-filters-btn").addEventListener("click", e => {
-            e.preventDefault();
-            document.querySelector(".filters-wrapper").classList.toggle("active");
-        });
+        if (document.querySelector(".show-filters-btn")) {
+            document.querySelector(".show-filters-btn").addEventListener("click", e => {
+                e.preventDefault();
+                document.querySelector(".filters-wrapper").classList.toggle("active");
+            });
+        }
 
         document.addEventListener("keydown", e => {
             if (e.key == "Enter") {

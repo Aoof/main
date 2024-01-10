@@ -10,7 +10,10 @@ module.exports = {
                 let allFoodTypes = await recipe.getFoodTypes();
                 let allCookTimes = await recipe.getCookTimes();
 
-                res.render('fae/fae-sparkles', {recipes, allIngredients, allFoodTypes, allCookTimes, allTags});
+                let searchTags = req.query.tags || [];
+                searchTags = typeof searchTags == "string" ? searchTags.split(',') : [];
+
+                res.render('fae/fae-sparkles', {recipes, allIngredients, allFoodTypes, allCookTimes, allTags, searchTags});
             }).catch(err => {
                 res.render('fae/fae-sparkles', {recipes: []});
             });

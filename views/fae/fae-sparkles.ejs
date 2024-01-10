@@ -3,7 +3,9 @@
         <%- include("../includes/flash.ejs") %>
 
         <div class="header">
-            <h1>Fae's Grimoire</h1>
+            <a href="/fae-sparkles">
+                <h1>Fae's Grimoire</h1>
+            </a>
         </div>
         <div class="actions-wrapper">
             <button class="btn btn-add popup-btn form-add" data-popup-id="add-recipe">Add</button>
@@ -14,6 +16,9 @@
         </div>
         <div class="search-wrapper filter recipes-filter" data-index="0">
             <div class="filter-query-wrapper">
+                <% searchTags.forEach(tag => { %>
+                    <div class="filter-option-tag search-tag"><%= tag %></div>
+                <% }) %>
                 <div class="auto-complete-group">
                     <input 
                         type="text" 
@@ -64,7 +69,7 @@
                         <div class="tags search-include">
                             <ul>
                                 <% recipe.tags.forEach(tag => { %>
-                                    <li><%= tag %></li>
+                                    <li class="tag-link"><%= tag %></li>
                                 <% }) %>
                             </ul>
                         </div>

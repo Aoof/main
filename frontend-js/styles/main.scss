@@ -78,7 +78,7 @@ body svg {
     font-weight: 300;
     margin-bottom: 1rem;
     transition: all 0.2s ease-in-out;
-    cursor: default;
+    cursor: pointer;
 }
 
 .container .wrapper {
@@ -124,10 +124,7 @@ body svg {
     background-color: #8a817c58;
     transition: all 0.2s ease-in-out;
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
 
     width: 95%;
     max-width: 960px;
