@@ -199,6 +199,21 @@ body svg {
     right: 20px;
 }
 
+.recipe .vegetarian {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    top: 20px;
+    right: 20px;
+    position: absolute;
+
+    color: #4CAF50;
+    i {
+        font-size: 1.5rem;
+    }
+}
+
 .recipe .tags ul {
     display: flex;
     justify-content: flex-start;
@@ -423,6 +438,19 @@ body svg {
     margin-bottom: 1rem;
 }
 
+.form-group.inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-content: center;
+
+    label {
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+}
+
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
@@ -442,7 +470,14 @@ body svg {
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-}
+    
+    &[type="checkbox"] {
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+    }
+}   
+
 
 .form-group input:focus {
     color: #fff;
@@ -733,23 +768,20 @@ body svg {
             width: max-content;
         }
 
-        .auto-complete-group {
+        input {
+            background: none;
+            border: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            vertical-align: middle;
+            font-size: 1.5rem;
+            
+            color: white;
 
-            input {
-                background: none;
+            &:focus {
                 border: none;
-                margin: 0;
-                padding: 0;
-                height: 100%;
-                vertical-align: middle;
-                font-size: 1.5rem;
-    
-                color: white;
-    
-                &:focus {
-                    border: none;
-                    box-shadow: none;
-                }
+                box-shadow: none;
             }
         }
 

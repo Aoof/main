@@ -351,7 +351,8 @@ export default class FaeGrimoire {
             ingredients: [],
             tags: [],
             instructions: document.querySelector("#instructions").value,
-            cookTime: document.querySelector("#cookTime").value
+            cookTime: document.querySelector("#cookTime").value,
+            vegetarian: document.querySelector("#vegetarian").checked
         };
 
         if (document.querySelector(".ingredient-name.main").value.trim() != "" && document.querySelector(".ingredient-amount.main").value.trim() != "") {

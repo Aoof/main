@@ -37,6 +37,11 @@
             <div class="createdDate">
                 <%= new Date(recipe.createdDate).toLocaleString() %>
             </div>
+            <div class="vegetarian">
+                <% if (recipe.vegetarian) { %>
+                    <i class="fas fa-leaf"></i>
+                <% } %>
+            </div>
         </div>
     </div>
 

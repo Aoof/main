@@ -19,18 +19,12 @@
                 <% searchTags.forEach(tag => { %>
                     <div class="filter-option-tag search-tag"><%= tag %></div>
                 <% }) %>
-                <div class="auto-complete-group">
-                    <input 
-                        type="text" 
-                        id="filter" 
-                        name="filter" 
-                        class="filter-query search auto-complete" 
-                        data-auto-complete-data="<%= JSON.stringify({ resultsContainer: 'results-container-0', data: allTags.concat(allIngredients) }) %>"
-                        placeholder="Search for Recipes">
-                    <div id="results-container-0" class="results-container no-select">
-                        <ul class="results-list"></ul>
-                    </div>
-                </div>
+                <input 
+                    type="text" 
+                    id="filter" 
+                    name="filter" 
+                    class="filter-query search" 
+                    placeholder="Search for Recipes">
             </div>
             <a class="btn btn-submit show-filters-btn"><i class="fas fa-filter"></i></a>
             <div class="filters-wrapper no-select">
@@ -84,6 +78,11 @@
                         </div>
                         <div class="createdDate search-exclude">
                             <%= new Date(recipe.createdDate).toLocaleString() %>
+                        </div>
+                        <div class="vegetarian search-exclude">
+                            <% if (recipe.vegetarian) { %>
+                                <i class="fas fa-leaf"></i>
+                            <% } %>
                         </div>
                     </a>
                 <% }) %>
