@@ -181,7 +181,7 @@ export default class FilterPagination {
         const pageLink = document.createElement('a');
         pageLink.className = 'pagination-link ind';
         pageLink.dataset.page = currentPage;
-        pageLink.textContent = currentPage;
+        pageLink.textContent = currentPage + " / " + totalPages;
         pageLink.classList.add('active');
         container.appendChild(pageLink);
     
