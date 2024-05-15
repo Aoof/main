@@ -1,3 +1,5 @@
+import Fuse from 'fuse.js';
+
 export default class FilterPagination {
     constructor() {
         this.paginationCores = document.querySelectorAll(".pagination");
@@ -9,6 +11,7 @@ export default class FilterPagination {
     }
 
     events() {
+
         this.loadPagination();
         this.loadFilter();
 
@@ -139,17 +142,30 @@ export default class FilterPagination {
     handleFilter(filterCore, searchTerm, extraTerms = []) {
         let filter = this.filters[filterCore.dataset.index];
 
+        // Any word from the search term is gonna be included
+        searchTerm = searchTerm.split(" ");
+        extraTerms = extraTerms.map(term => term.split(" "));
+        let terms = searchTerm.concat(extraTerms);
+
+        // If the search term is empty, show all
+        if (searchTerm.length === 0 && extraTerms.length === 0) {
+            filter.filtered.forEach(item => {
+                item.classList.remove("filtered--hide");
+                item.classList.add("filtered--show");
+            });
+        }
+
         filter.filtered.forEach(item => {
-            item.classList.remove("filtered--hide");
-            item.classList.add("filtered--show");
+            item.classList.remove("filtered--show");
+            item.classList.add("filtered--hide");
 
             let text = "";
 
             item.querySelectorAll(".search-include").forEach(searchInclude => text += searchInclude.textContent.toLowerCase())
 
-            if (!text.includes(searchTerm) || !extraTerms.every(term => text.includes(term))) {
-                item.classList.remove("filtered--show");
-                item.classList.add("filtered--hide");
+            if (terms.every(term => text.includes(term))) {
+                item.classList.remove("filtered--hide");
+                item.classList.add("filtered--show");
             }
         });
 
