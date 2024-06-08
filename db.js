@@ -6,9 +6,10 @@ require("dotenv").config();
 const client = new MongoClient(process.env.MONGODBSTRING, {
     serverApi: {
         version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
+        deprecationErrors: false,
+    },
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 client.connect().then(() => {
