@@ -1,20 +1,29 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 const fs = require("fs");
 const https = require("https");
 require("dotenv").config();
 
-MongoClient.connect(process.env.MONGODBSTRING, 
-{ useUnifiedTopology: true, useNewUrlParser: true },
-function(err, client) {
+const client = new MongoClient(process.env.MONGODBSTRING, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    }
+});
+
+client.connect().then(() => {
+    console.log("Connected to MongoDB");
+
     module.exports = client.db("maindb");
+
     const app = require("./index");
-    
+
     if (process.env.NODE_ENV === "production") {
         const options = {
             key: fs.readFileSync(process.env.KEY_PATH || "key.pem"),
             cert: fs.readFileSync(process.env.CERT_PATH || "cert.pem"),
         };
-    
+
         app.use((req, res, next) => {
             if (req.headers.host === 'www.aoof.ca') {
                 res.redirect(301, 'https://aoof.ca' + req.originalUrl);
@@ -38,9 +47,8 @@ function(err, client) {
             console.log(`Redirecting HTTP to HTTPS on port 80`);
         });
     } else {
-        // For non-production environments, start an HTTP server
-        app.listen(process.env.PORT || 80, () => {
-            console.log(`Server listening on port ${process.env.PORT || 80}`);
+        app.listen(process.env.PORT || 3000, () => {
+            console.log(`Server listening on port ${process.env.PORT || 3000}`);
         });
     }
 })
